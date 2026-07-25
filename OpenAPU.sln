@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{952CD821
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAPU.Application.Tests", "tests\OpenAPU.Application.Tests\OpenAPU.Application.Tests.csproj", "{7DC8CE09-40D3-4100-A1CF-B210596DD035}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAPU.Infrastructure", "src\OpenAPU.Infrastructure\OpenAPU.Infrastructure.csproj", "{7AE42744-3233-48C3-AAB6-458006AE06AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAPU.Integration.Tests", "tests\OpenAPU.Integration.Tests\OpenAPU.Integration.Tests.csproj", "{DE324AD4-E9BD-47E3-A694-47D0AD1E1A74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,9 +40,19 @@ Global
 		{7DC8CE09-40D3-4100-A1CF-B210596DD035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DC8CE09-40D3-4100-A1CF-B210596DD035}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DC8CE09-40D3-4100-A1CF-B210596DD035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE42744-3233-48C3-AAB6-458006AE06AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE42744-3233-48C3-AAB6-458006AE06AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE42744-3233-48C3-AAB6-458006AE06AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE42744-3233-48C3-AAB6-458006AE06AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE324AD4-E9BD-47E3-A694-47D0AD1E1A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE324AD4-E9BD-47E3-A694-47D0AD1E1A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE324AD4-E9BD-47E3-A694-47D0AD1E1A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE324AD4-E9BD-47E3-A694-47D0AD1E1A74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC1629EE-5EEE-40FA-9AC0-D51BB538FDE8} = {0A51D19A-BA55-44D5-A631-291A193D6067}
 		{7DC8CE09-40D3-4100-A1CF-B210596DD035} = {952CD821-FC0C-42FE-B258-BAFF19C51A1A}
+		{7AE42744-3233-48C3-AAB6-458006AE06AC} = {0A51D19A-BA55-44D5-A631-291A193D6067}
+		{DE324AD4-E9BD-47E3-A694-47D0AD1E1A74} = {952CD821-FC0C-42FE-B258-BAFF19C51A1A}
 	EndGlobalSection
 EndGlobal
