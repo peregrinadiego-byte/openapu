@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace OpenAPU.Infrastructure.Persistence;
 
@@ -15,11 +15,36 @@ internal sealed class ResourceRow
     public string Status { get; set; } = "";
 }
 
+internal sealed class ApuRow
+{
+    public Guid Id { get; set; }
+    public string Key { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string UnitCode { get; set; } = "";
+    public string UnitSymbol { get; set; } = "";
+    public string UnitName { get; set; } = "";
+    public List<ApuComponentRow> Components { get; set; } = [];
+}
+
+internal sealed class ApuComponentRow
+{
+    public Guid Id { get; set; }
+    public Guid ApuId { get; set; }
+    public Guid ResourceId { get; set; }
+    public decimal Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+
+    public ApuRow Apu { get; set; } = null!;
+}
+
 internal sealed class OpenApuDbContext : DbContext
 {
     public DbSet<ResourceRow> Resources => Set<ResourceRow>();
+    public DbSet<ApuRow> Apus => Set<ApuRow>();
+    public DbSet<ApuComponentRow> ApuComponents => Set<ApuComponentRow>();
 
-    public OpenApuDbContext(DbContextOptions<OpenApuDbContext> options)
+    public OpenApuDbContext(
+        DbContextOptions<OpenApuDbContext> options)
         : base(options)
     {
     }
@@ -30,6 +55,7 @@ internal sealed class OpenApuDbContext : DbContext
 
         resource.ToTable("resources");
         resource.HasKey(row => row.Id);
+        resource.Property(row => row.Id).ValueGeneratedNever();
         resource.HasIndex(row => row.Key).IsUnique();
 
         resource.Property(row => row.Key).HasMaxLength(100).IsRequired();
@@ -39,5 +65,31 @@ internal sealed class OpenApuDbContext : DbContext
         resource.Property(row => row.UnitSymbol).HasMaxLength(30).IsRequired();
         resource.Property(row => row.UnitName).HasMaxLength(150).IsRequired();
         resource.Property(row => row.Status).HasMaxLength(30).IsRequired();
+
+        var apu = modelBuilder.Entity<ApuRow>();
+
+        apu.ToTable("apus");
+        apu.HasKey(row => row.Id);
+        apu.Property(row => row.Id).ValueGeneratedNever();
+        apu.HasIndex(row => row.Key).IsUnique();
+
+        apu.Property(row => row.Key).HasMaxLength(100).IsRequired();
+        apu.Property(row => row.Name).HasMaxLength(300).IsRequired();
+        apu.Property(row => row.UnitCode).HasMaxLength(50).IsRequired();
+        apu.Property(row => row.UnitSymbol).HasMaxLength(30).IsRequired();
+        apu.Property(row => row.UnitName).HasMaxLength(150).IsRequired();
+
+        var component = modelBuilder.Entity<ApuComponentRow>();
+
+        component.ToTable("apu_components");
+        component.HasKey(row => row.Id);
+        component.Property(row => row.Id).ValueGeneratedNever();
+        component.HasIndex(row => new { row.ApuId, row.ResourceId }).IsUnique();
+
+        component
+            .HasOne(row => row.Apu)
+            .WithMany(row => row.Components)
+            .HasForeignKey(row => row.ApuId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
