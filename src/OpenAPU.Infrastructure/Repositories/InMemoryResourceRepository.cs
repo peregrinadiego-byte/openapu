@@ -1,4 +1,4 @@
-﻿using OpenAPU.Application.Abstractions;
+using OpenAPU.Application.Abstractions;
 using OpenAPU.Domain;
 
 namespace OpenAPU.Infrastructure.Repositories;
@@ -21,6 +21,19 @@ public sealed class InMemoryResourceRepository : IResourceRepository
         }
     }
 
+    public Task<Resource?> GetByIdAsync(
+        Identifier id,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        lock (_sync)
+        {
+            return Task.FromResult(
+                _resources.SingleOrDefault(resource => resource.Id == id));
+        }
+    }
+
     public Task AddAsync(
         Resource resource,
         CancellationToken cancellationToken = default)
@@ -37,6 +50,29 @@ public sealed class InMemoryResourceRepository : IResourceRepository
             }
 
             _resources.Add(resource);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(
+        Resource resource,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(resource);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        lock (_sync)
+        {
+            var index = _resources.FindIndex(existing => existing.Id == resource.Id);
+
+            if (index < 0)
+            {
+                throw new InvalidOperationException(
+                    $"Resource '{resource.Id}' was not found.");
+            }
+
+            _resources[index] = resource;
         }
 
         return Task.CompletedTask;

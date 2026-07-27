@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OpenAPU.Application.Abstractions;
 using OpenAPU.Domain;
 using OpenAPU.Infrastructure.Persistence;
@@ -45,6 +45,21 @@ public sealed class SqliteResourceRepository : IResourceRepository
             .AnyAsync(row => row.Key == key.Value, cancellationToken);
     }
 
+    public async Task<Resource?> GetByIdAsync(
+        Identifier id,
+        CancellationToken cancellationToken = default)
+    {
+        await using var context = CreateContext();
+
+        var row = await context.Resources
+            .AsNoTracking()
+            .SingleOrDefaultAsync(
+                resource => resource.Id == id.Value,
+                cancellationToken);
+
+        return row is null ? null : ToDomain(row);
+    }
+
     public async Task AddAsync(
         Resource resource,
         CancellationToken cancellationToken = default)
@@ -53,18 +68,7 @@ public sealed class SqliteResourceRepository : IResourceRepository
 
         await using var context = CreateContext();
 
-        context.Resources.Add(new ResourceRow
-        {
-            Id = resource.Id.Value,
-            Key = resource.Key.Value,
-            Name = resource.Name,
-            Type = resource.Type.ToString(),
-            UnitCode = resource.Unit.Code,
-            UnitSymbol = resource.Unit.Symbol,
-            UnitName = resource.Unit.Name,
-            Price = resource.Price.Amount,
-            Status = resource.Status.ToString()
-        });
+        context.Resources.Add(ToRow(resource));
 
         try
         {
@@ -76,6 +80,32 @@ public sealed class SqliteResourceRepository : IResourceRepository
                 $"Resource key '{resource.Key}' already exists.",
                 exception);
         }
+    }
+
+    public async Task UpdateAsync(
+        Resource resource,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(resource);
+
+        await using var context = CreateContext();
+
+        var row = await context.Resources
+            .SingleOrDefaultAsync(
+                existing => existing.Id == resource.Id.Value,
+                cancellationToken);
+
+        if (row is null)
+        {
+            throw new InvalidOperationException(
+                $"Resource '{resource.Id}' was not found.");
+        }
+
+        row.Name = resource.Name;
+        row.Price = resource.Price.Amount;
+        row.Status = resource.Status.ToString();
+
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<Resource>> GetAllAsync(
@@ -92,6 +122,19 @@ public sealed class SqliteResourceRepository : IResourceRepository
     }
 
     private OpenApuDbContext CreateContext() => new(_options);
+
+    private static ResourceRow ToRow(Resource resource) => new()
+    {
+        Id = resource.Id.Value,
+        Key = resource.Key.Value,
+        Name = resource.Name,
+        Type = resource.Type.ToString(),
+        UnitCode = resource.Unit.Code,
+        UnitSymbol = resource.Unit.Symbol,
+        UnitName = resource.Unit.Name,
+        Price = resource.Price.Amount,
+        Status = resource.Status.ToString()
+    };
 
     private static Resource ToDomain(ResourceRow row)
     {
@@ -117,4 +160,3 @@ public sealed class SqliteResourceRepository : IResourceRepository
             status);
     }
 }
-
