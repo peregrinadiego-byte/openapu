@@ -1,0 +1,182 @@
+:root {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1b1f23;
+    background: #f3f5f7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    background: #ffffff;
+    border-bottom: 1px solid #d9dee3;
+}
+
+.topbar h1,
+.topbar p {
+    margin: 0;
+}
+
+.topbar p {
+    margin-top: 4px;
+    color: #5b6570;
+}
+
+.status {
+    font-size: 14px;
+    padding: 7px 10px;
+    border: 1px solid #c8d0d8;
+    border-radius: 999px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px 32px 40px;
+}
+
+.panel {
+    background: #ffffff;
+    border: 1px solid #d9dee3;
+    border-radius: 10px;
+    padding: 22px;
+}
+
+.panel h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+form {
+    display: grid;
+    gap: 14px;
+}
+
+label {
+    display: grid;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+input,
+select,
+button {
+    font: inherit;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid #b8c1ca;
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #303840;
+    outline-offset: 1px;
+}
+
+button {
+    border: 0;
+    border-radius: 6px;
+    padding: 11px 14px;
+    cursor: pointer;
+    background: #20262c;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+button.secondary {
+    background: #eef1f4;
+    color: #20262c;
+    border: 1px solid #c8d0d8;
+    padding: 8px 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 11px 10px;
+    border-bottom: 1px solid #e4e8ec;
+    font-size: 14px;
+}
+
+th {
+    color: #4d5862;
+    font-weight: 700;
+}
+
+.message {
+    min-height: 20px;
+    margin: 0;
+    font-size: 14px;
+}
+
+.message.error {
+    color: #a02020;
+}
+
+.message.success {
+    color: #216e39;
+}
+
+.empty {
+    color: #66717c;
+}
+
+@media (max-width: 850px) {
+    .layout {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .topbar {
+        padding: 20px 18px;
+    }
+}

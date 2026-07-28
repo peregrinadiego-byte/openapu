@@ -53,6 +53,9 @@ builder.Services.AddSingleton<RefreshBudgetPricesHandler>();
 
 var app = builder.Build();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseExceptionHandler(exceptionHandler =>
 {
     exceptionHandler.Run(async context =>
@@ -79,6 +82,8 @@ app.UseExceptionHandler(exceptionHandler =>
 });
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+
+app.MapGet("/app", () => Results.Redirect("/index.html"));
 app.MapGet("/", () => Results.Ok(new
 {
     name = "OpenAPU",
@@ -381,5 +386,6 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 

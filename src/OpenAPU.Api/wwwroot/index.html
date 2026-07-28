@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenAPU</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <h1>OpenAPU</h1>
+            <p>Recursos de obra</p>
+        </div>
+        <span id="status" class="status">Conectando…</span>
+    </header>
+
+    <main class="layout">
+        <section class="panel">
+            <h2>Nuevo recurso</h2>
+
+            <form id="resource-form">
+                <label>
+                    Clave
+                    <input id="key" name="key" required maxlength="100">
+                </label>
+
+                <label>
+                    Nombre
+                    <input id="name" name="name" required maxlength="300">
+                </label>
+
+                <label>
+                    Tipo
+                    <select id="type" name="type">
+                        <option value="Material">Material</option>
+                        <option value="Labor">Mano de obra</option>
+                        <option value="Equipment">Equipo</option>
+                        <option value="Auxiliary">Auxiliar</option>
+                    </select>
+                </label>
+
+                <div class="grid">
+                    <label>
+                        Código de unidad
+                        <input id="unitCode" name="unitCode" required placeholder="KG">
+                    </label>
+
+                    <label>
+                        Símbolo
+                        <input id="unitSymbol" name="unitSymbol" required placeholder="kg">
+                    </label>
+                </div>
+
+                <label>
+                    Nombre de unidad
+                    <input id="unitName" name="unitName" required placeholder="Kilogramo">
+                </label>
+
+                <label>
+                    Precio
+                    <input id="price" name="price" type="number" min="0" step="0.01" required>
+                </label>
+
+                <button type="submit">Guardar recurso</button>
+                <p id="form-message" class="message" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="panel table-panel">
+            <div class="section-heading">
+                <h2>Recursos registrados</h2>
+                <button id="reload" type="button" class="secondary">Actualizar</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Clave</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Unidad</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resource-body"></tbody>
+                </table>
+            </div>
+
+            <p id="empty-state" class="empty" hidden>No hay recursos registrados.</p>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+</body>
+</html>
