@@ -41,6 +41,15 @@ builder.Services.AddSingleton<UpdateConceptPercentagesHandler>();
 
 builder.Services.AddSingleton<CreateBudgetHandler>();
 builder.Services.AddSingleton<AddBudgetItemHandler>();
+builder.Services.AddSingleton<GetResourceHandler>();
+builder.Services.AddSingleton<GetApusHandler>();
+builder.Services.AddSingleton<GetConceptHandler>();
+builder.Services.AddSingleton<GetConceptsHandler>();
+builder.Services.AddSingleton<GetBudgetHandler>();
+builder.Services.AddSingleton<GetBudgetsHandler>();
+builder.Services.AddSingleton<ChangeBudgetItemQuantityHandler>();
+builder.Services.AddSingleton<RemoveBudgetItemHandler>();
+builder.Services.AddSingleton<RefreshBudgetPricesHandler>();
 
 var app = builder.Build();
 
@@ -239,6 +248,89 @@ app.MapPost("/budgets/{budgetId:guid}/items", async (
             cancellationToken));
 });
 
+
+app.MapGet("/resources/{id:guid}", async (
+    Guid id,
+    GetResourceHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(id, cancellationToken));
+});
+
+app.MapGet("/apus", async (
+    GetApusHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(cancellationToken));
+});
+
+app.MapGet("/concepts", async (
+    GetConceptsHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(cancellationToken));
+});
+
+app.MapGet("/concepts/{id:guid}", async (
+    Guid id,
+    GetConceptHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(id, cancellationToken));
+});
+
+app.MapGet("/budgets", async (
+    GetBudgetsHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(cancellationToken));
+});
+
+app.MapGet("/budgets/{id:guid}", async (
+    Guid id,
+    GetBudgetHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(id, cancellationToken));
+});
+
+app.MapPut("/budgets/{budgetId:guid}/items/{itemId:guid}", async (
+    Guid budgetId,
+    Guid itemId,
+    ChangeQuantityRequest request,
+    ChangeBudgetItemQuantityHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(
+        await handler.HandleAsync(
+            new ChangeBudgetItemQuantityCommand(
+                budgetId,
+                itemId,
+                request.Quantity),
+            cancellationToken));
+});
+
+app.MapDelete("/budgets/{budgetId:guid}/items/{itemId:guid}", async (
+    Guid budgetId,
+    Guid itemId,
+    RemoveBudgetItemHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(
+        await handler.HandleAsync(
+            new RemoveBudgetItemCommand(
+                budgetId,
+                itemId),
+            cancellationToken));
+});
+
+app.MapPost("/budgets/{id:guid}/refresh-prices", async (
+    Guid id,
+    RefreshBudgetPricesHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    return Results.Ok(await handler.HandleAsync(id, cancellationToken));
+});
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -283,3 +375,4 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+

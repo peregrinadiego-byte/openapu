@@ -64,6 +64,10 @@ public sealed class OpenApuApiFactory :
     protected override void ConfigureWebHost(
         IWebHostBuilder builder)
     {
+        builder.UseSetting(
+            "ConnectionStrings:OpenAPU",
+            $"Data Source={_databasePath};Pooling=False");
+            
         builder.ConfigureAppConfiguration((_, configuration) =>
         {
             configuration.AddInMemoryCollection(
