@@ -72,10 +72,42 @@ async function loadResources() {
             row.appendChild(cell);
         }
 
+        const actions = document.createElement("td");
+        actions.className = "actions";
+
+        const editButton = document.createElement("button");
+        editButton.className = "secondary compact";
+        editButton.textContent = "Editar";
+        editButton.addEventListener("click", () => editResource(item));
+
+        actions.appendChild(editButton);
+        row.appendChild(actions);
         body.appendChild(row);
     }
 
     fillSelect("component-resource", state.resources, item => `${item.key} — ${item.name}`);
+}
+
+async function editResource(resource) {
+    const name = prompt("Nombre del recurso:", resource.name);
+    if (name === null) return;
+
+    const priceInput = prompt("Precio:", resource.price);
+    if (priceInput === null) return;
+
+    const active = confirm("Aceptar para dejar el recurso activo. Cancelar para inactivarlo.");
+
+    await request(`/resources/${resource.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: name.trim(),
+            price: Number(priceInput),
+            isActive: active
+        })
+    });
+
+    await loadResources();
 }
 
 async function loadApus() {
@@ -88,15 +120,44 @@ async function loadApus() {
         const card = document.createElement("article");
         card.className = "card";
 
-        const components = apu.components?.length ?? 0;
+        const title = document.createElement("h3");
+        title.textContent = `${apu.key} — ${apu.name}`;
+        card.appendChild(title);
 
-        card.innerHTML = `
-            <h3>${apu.key} — ${apu.name}</h3>
-            <p>Unidad: <strong>${apu.unit}</strong></p>
-            <p>Componentes: <strong>${components}</strong></p>
-            <p>Costo directo: <strong>${money(apu.directCost)}</strong></p>
-        `;
+        const summary = document.createElement("p");
+        summary.innerHTML = `Unidad: <strong>${apu.unit}</strong> · Costo directo: <strong>${money(apu.directCost)}</strong>`;
+        card.appendChild(summary);
 
+        const items = document.createElement("div");
+        items.className = "item-list";
+
+        for (const component of apu.components ?? []) {
+            const row = document.createElement("div");
+            row.className = "item-row";
+
+            const description = document.createElement("span");
+            description.textContent =
+                `${component.resourceKey} — ${component.resourceName} · ${component.quantity} × ${money(component.unitPrice)}`;
+
+            const remove = document.createElement("button");
+            remove.className = "danger compact";
+            remove.textContent = "Eliminar";
+            remove.addEventListener("click", async () => {
+                if (!confirm("¿Eliminar este componente?")) return;
+
+                await request(`/apus/${apu.id}/components/${component.id}`, {
+                    method: "DELETE"
+                });
+
+                await loadApus();
+            });
+
+            row.appendChild(description);
+            row.appendChild(remove);
+            items.appendChild(row);
+        }
+
+        card.appendChild(items);
         list.appendChild(card);
     }
 
@@ -141,12 +202,61 @@ async function loadBudgets() {
         const card = document.createElement("article");
         card.className = "card";
 
-        card.innerHTML = `
-            <h3>${budget.key} — ${budget.name}</h3>
-            <p>Partidas: <strong>${budget.items?.length ?? 0}</strong></p>
-            <p>Total: <strong>${money(budget.total)}</strong></p>
-        `;
+        const title = document.createElement("h3");
+        title.textContent = `${budget.key} — ${budget.name}`;
+        card.appendChild(title);
 
+        const summary = document.createElement("p");
+        summary.innerHTML = `Partidas: <strong>${budget.items?.length ?? 0}</strong> · Total: <strong>${money(budget.total)}</strong>`;
+        card.appendChild(summary);
+
+        const items = document.createElement("div");
+        items.className = "item-list";
+
+        for (const item of budget.items ?? []) {
+            const row = document.createElement("div");
+            row.className = "item-row";
+
+            const description = document.createElement("span");
+            description.textContent =
+                `${item.conceptKey} — ${item.conceptName} · ${item.quantity} × ${money(item.unitPrice)} = ${money(item.total)}`;
+
+            const quantity = document.createElement("button");
+            quantity.className = "secondary compact";
+            quantity.textContent = "Cantidad";
+            quantity.addEventListener("click", async () => {
+                const value = prompt("Nueva cantidad:", item.quantity);
+                if (value === null) return;
+
+                await request(`/budgets/${budget.id}/items/${item.id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ quantity: Number(value) })
+                });
+
+                await loadBudgets();
+            });
+
+            const remove = document.createElement("button");
+            remove.className = "danger compact";
+            remove.textContent = "Eliminar";
+            remove.addEventListener("click", async () => {
+                if (!confirm("¿Eliminar esta partida?")) return;
+
+                await request(`/budgets/${budget.id}/items/${item.id}`, {
+                    method: "DELETE"
+                });
+
+                await loadBudgets();
+            });
+
+            row.appendChild(description);
+            row.appendChild(quantity);
+            row.appendChild(remove);
+            items.appendChild(row);
+        }
+
+        card.appendChild(items);
         list.appendChild(card);
     }
 
