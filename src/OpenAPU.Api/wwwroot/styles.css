@@ -4,63 +4,67 @@
     background: #f3f5f7;
 }
 
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-}
+* { box-sizing: border-box; }
+body { margin: 0; }
 
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 24px 32px;
-    background: #ffffff;
+    background: #fff;
     border-bottom: 1px solid #d9dee3;
 }
 
-.topbar h1,
-.topbar p {
-    margin: 0;
-}
-
-.topbar p {
-    margin-top: 4px;
-    color: #5b6570;
-}
+.topbar h1, .topbar p { margin: 0; }
+.topbar p { margin-top: 4px; color: #5b6570; }
 
 .status {
-    font-size: 14px;
     padding: 7px 10px;
     border: 1px solid #c8d0d8;
     border-radius: 999px;
+    font-size: 14px;
 }
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    padding: 14px 32px;
+    background: #fff;
+    border-bottom: 1px solid #d9dee3;
+    overflow-x: auto;
+}
+
+.tab {
+    background: #eef1f4;
+    color: #20262c;
+    border: 1px solid #c8d0d8;
+}
+
+.tab.active {
+    background: #20262c;
+    color: #fff;
+}
+
+.view { display: none; }
+.view.active { display: block; }
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
     gap: 24px;
     padding: 24px 32px 40px;
 }
 
 .panel {
-    background: #ffffff;
+    background: #fff;
     border: 1px solid #d9dee3;
     border-radius: 10px;
     padding: 22px;
 }
 
-.panel h2 {
-    margin-top: 0;
-    font-size: 20px;
-}
-
-form {
-    display: grid;
-    gap: 14px;
-}
+.panel h2 { margin-top: 0; font-size: 20px; }
+form { display: grid; gap: 14px; }
 
 label {
     display: grid;
@@ -69,25 +73,14 @@ label {
     font-weight: 600;
 }
 
-input,
-select,
-button {
-    font: inherit;
-}
+input, select, button { font: inherit; }
 
-input,
-select {
+input, select {
     width: 100%;
     padding: 10px 11px;
     border: 1px solid #b8c1ca;
     border-radius: 6px;
-    background: #ffffff;
-}
-
-input:focus,
-select:focus {
-    outline: 2px solid #303840;
-    outline-offset: 1px;
+    background: #fff;
 }
 
 button {
@@ -96,17 +89,8 @@ button {
     padding: 11px 14px;
     cursor: pointer;
     background: #20262c;
-    color: #ffffff;
+    color: #fff;
     font-weight: 600;
-}
-
-button:hover {
-    opacity: 0.9;
-}
-
-button:disabled {
-    cursor: wait;
-    opacity: 0.55;
 }
 
 button.secondary {
@@ -116,6 +100,8 @@ button.secondary {
     padding: 8px 12px;
 }
 
+button:disabled { opacity: .55; cursor: wait; }
+
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -124,33 +110,42 @@ button.secondary {
 
 .section-heading {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     gap: 12px;
 }
 
-.table-wrap {
-    overflow-x: auto;
-}
+.table-wrap { overflow-x: auto; }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 680px;
+    min-width: 650px;
 }
 
-th,
-td {
-    text-align: left;
+th, td {
     padding: 11px 10px;
     border-bottom: 1px solid #e4e8ec;
+    text-align: left;
     font-size: 14px;
 }
 
-th {
-    color: #4d5862;
-    font-weight: 700;
+th { color: #4d5862; }
+
+.cards {
+    display: grid;
+    gap: 14px;
 }
+
+.card {
+    border: 1px solid #d9dee3;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.card h3 { margin: 0 0 6px; }
+.card p { margin: 4px 0; color: #59636d; }
+.card strong { color: #1b1f23; }
 
 .message {
     min-height: 20px;
@@ -158,25 +153,17 @@ th {
     font-size: 14px;
 }
 
-.message.error {
-    color: #a02020;
+.message.error { color: #a02020; }
+.message.success { color: #216e39; }
+
+hr {
+    border: 0;
+    border-top: 1px solid #e4e8ec;
+    margin: 24px 0;
 }
 
-.message.success {
-    color: #216e39;
-}
-
-.empty {
-    color: #66717c;
-}
-
-@media (max-width: 850px) {
-    .layout {
-        grid-template-columns: 1fr;
-        padding: 18px;
-    }
-
-    .topbar {
-        padding: 20px 18px;
-    }
+@media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; padding: 18px; }
+    .topbar { padding: 20px 18px; }
+    .tabs { padding: 12px 18px; }
 }
