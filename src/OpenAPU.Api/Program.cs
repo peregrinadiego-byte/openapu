@@ -3,6 +3,7 @@ using OpenAPU.Application.Apus;
 using OpenAPU.Application.Budgets;
 using OpenAPU.Application.Concepts;
 using OpenAPU.Application.Exports;
+using OpenAPU.Application.Imports;
 using OpenAPU.Application.Resources;
 using OpenAPU.Infrastructure.Repositories;
 
@@ -27,6 +28,7 @@ builder.Services.AddSingleton<IBudgetRepository>(
     _ => new SqliteBudgetRepository(databasePath));
 
 builder.Services.AddSingleton<CreateResourceHandler>();
+builder.Services.AddSingleton<CsvResourceImportService>();
 builder.Services.AddSingleton<GetResourcesHandler>();
 builder.Services.AddSingleton<UpdateResourceHandler>();
 
@@ -369,6 +371,37 @@ app.MapGet("/exports/budgets.csv", async (
         "text/csv; charset=utf-8",
         "openapu-presupuestos.csv");
 });
+
+app.MapGet("/imports/resources/template.csv", () =>
+{
+    return Results.File(
+        CsvResourceImportService.CreateTemplate(),
+        "text/csv; charset=utf-8",
+        "plantilla-recursos-openapu.csv");
+});
+
+app.MapPost("/imports/resources.csv", async (
+    IFormFile file,
+    CsvResourceImportService service,
+    CancellationToken cancellationToken) =>
+{
+    if (file.Length == 0)
+    {
+        return Results.BadRequest(new
+        {
+            title = "El archivo está vacío."
+        });
+    }
+
+    await using var stream = file.OpenReadStream();
+
+    var result = await service.ImportAsync(
+        stream,
+        cancellationToken);
+
+    return Results.Ok(result);
+})
+.DisableAntiforgery();
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -413,6 +446,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

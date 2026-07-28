@@ -469,4 +469,41 @@ document.querySelector("#budget-item-form").addEventListener("submit", async eve
     }
 });
 
+
+document.querySelector("#resource-import-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const fileInput = document.querySelector("#resource-import-file");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        message("resource-import-message", "Selecciona un archivo CSV.", "error");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const result = await request("/imports/resources.csv", {
+            method: "POST",
+            body: formData
+        });
+
+        const detail = result.rejected > 0
+            ? ` Importados: ${result.imported}. Rechazados: ${result.rejected}.`
+            : ` Importados: ${result.imported}.`;
+
+        message(
+            "resource-import-message",
+            `Importación completada.${detail}`,
+            result.rejected > 0 ? "error" : "success");
+
+        event.target.reset();
+        await loadResources();
+    } catch (error) {
+        message("resource-import-message", error.message, "error");
+    }
+});
 loadAll();
+
