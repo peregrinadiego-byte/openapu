@@ -31,7 +31,7 @@ public sealed class SqliteConceptRepository : IConceptRepository
             .Options;
 
         using var context = CreateContext();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     }
 
     public async Task<bool> ExistsByKeyAsync(
@@ -184,3 +184,4 @@ public sealed class SqliteConceptRepository : IConceptRepository
             Percentage.From(row.AdditionalCharges));
     }
 }
+

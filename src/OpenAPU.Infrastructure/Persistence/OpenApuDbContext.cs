@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OpenAPU.Infrastructure.Persistence;
 
-internal sealed class ResourceRow
+public sealed class ResourceRow
 {
     public Guid Id { get; set; }
     public string Key { get; set; } = "";
@@ -15,7 +15,7 @@ internal sealed class ResourceRow
     public string Status { get; set; } = "";
 }
 
-internal sealed class ApuRow
+public sealed class ApuRow
 {
     public Guid Id { get; set; }
     public string Key { get; set; } = "";
@@ -26,7 +26,7 @@ internal sealed class ApuRow
     public List<ApuComponentRow> Components { get; set; } = [];
 }
 
-internal sealed class ApuComponentRow
+public sealed class ApuComponentRow
 {
     public Guid Id { get; set; }
     public Guid ApuId { get; set; }
@@ -36,7 +36,7 @@ internal sealed class ApuComponentRow
     public ApuRow Apu { get; set; } = null!;
 }
 
-internal sealed class ConceptRow
+public sealed class ConceptRow
 {
     public Guid Id { get; set; }
     public string Key { get; set; } = "";
@@ -52,7 +52,7 @@ internal sealed class ConceptRow
 }
 
 
-internal sealed class BudgetRow
+public sealed class BudgetRow
 {
     public Guid Id { get; set; }
     public string Key { get; set; } = "";
@@ -60,7 +60,7 @@ internal sealed class BudgetRow
     public List<BudgetItemRow> Items { get; set; } = [];
 }
 
-internal sealed class BudgetItemRow
+public sealed class BudgetItemRow
 {
     public Guid Id { get; set; }
     public Guid BudgetId { get; set; }
@@ -69,7 +69,7 @@ internal sealed class BudgetItemRow
     public decimal UnitPrice { get; set; }
     public BudgetRow Budget { get; set; } = null!;
 }
-internal sealed class OpenApuDbContext : DbContext
+public sealed class OpenApuDbContext : DbContext
 {
     public DbSet<ResourceRow> Resources => Set<ResourceRow>();
     public DbSet<ApuRow> Apus => Set<ApuRow>();
@@ -163,4 +163,5 @@ internal sealed class OpenApuDbContext : DbContext
             .HasForeignKey(row => row.BudgetId)
             .OnDelete(DeleteBehavior.Cascade);    }
 }
+
 

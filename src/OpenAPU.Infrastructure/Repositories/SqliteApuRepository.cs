@@ -31,7 +31,7 @@ public sealed class SqliteApuRepository : IApuRepository
             .Options;
 
         using var context = CreateContext();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     }
 
     public async Task<bool> ExistsByKeyAsync(
@@ -179,4 +179,5 @@ public sealed class SqliteApuRepository : IApuRepository
             row,
             cancellationToken);
     }}
+
 

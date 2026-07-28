@@ -31,7 +31,7 @@ public sealed class SqliteResourceRepository : IResourceRepository
             .Options;
 
         using var context = CreateContext();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     }
 
     public async Task<bool> ExistsByKeyAsync(
@@ -160,3 +160,4 @@ public sealed class SqliteResourceRepository : IResourceRepository
             status);
     }
 }
+

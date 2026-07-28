@@ -31,7 +31,7 @@ public sealed class SqliteBudgetRepository : IBudgetRepository
             .Options;
 
         using var context = CreateContext();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     }
 
     public async Task<bool> ExistsByKeyAsync(
@@ -209,3 +209,4 @@ public sealed class SqliteBudgetRepository : IBudgetRepository
             snapshots);
     }
 }
+

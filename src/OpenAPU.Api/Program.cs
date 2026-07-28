@@ -79,6 +79,12 @@ app.UseExceptionHandler(exceptionHandler =>
 });
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+app.MapGet("/", () => Results.Ok(new
+{
+    name = "OpenAPU",
+    version = "1.0",
+    status = "ready"
+}));
 
 app.MapGet("/resources", async (
     GetResourcesHandler handler,
@@ -375,4 +381,5 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 

@@ -3,3 +3,9 @@ obj/
 TestResults/
 .vs/
 *.user
+
+# OpenAPU local data
+*.db
+*.db-shm
+*.db-wal
+TestResults/

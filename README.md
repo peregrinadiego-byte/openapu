@@ -1,27 +1,77 @@
-# OpenAPU Kernel 1.0
+# OpenAPU 1.0
 
-Implementación de referencia inicial del dominio OpenAPU en C# y .NET 8.
+Núcleo abierto para administrar recursos, análisis de precios unitarios, conceptos y presupuestos de obra.
 
-## Contenido
+## Requisitos
 
-- Value Objects: `Identifier`, `Key`, `Money`, `Quantity`, `Percentage`, `Unit`.
-- Entidades y agregados: `Resource`, `Apu`, `Concept`, `Budget`.
-- Entidades internas: `ApuComponent`, `BudgetItem`.
-- Prueba integral de recursos → APU → concepto → presupuesto.
+- .NET SDK 8
+- SQLite
+- Docker, opcional
 
-## Ejecutar
+## Ejecutar localmente
 
-```bash
-dotnet restore
+```powershell
+dotnet tool restore
+dotnet restore OpenAPU.sln
+dotnet run --project src/OpenAPU.Api/OpenAPU.Api.csproj
+```
+
+La API queda disponible en:
+
+```text
+http://localhost:5080
+```
+
+Comprobación:
+
+```text
+GET /health
+```
+
+## Ejecutar pruebas
+
+```powershell
 dotnet test OpenAPU.sln
 ```
 
-## Cobertura
+## Base de datos
 
-```bash
-dotnet test OpenAPU.sln --collect:"XPlat Code Coverage"
+La aplicación usa SQLite y aplica automáticamente las migraciones pendientes.
+
+La ruta predeterminada es:
+
+```text
+openapu.db
 ```
 
-## Alcance
+Puede cambiarse mediante:
 
-Este repositorio contiene únicamente el Kernel. No incluye base de datos, API, interfaz ni importación/exportación.
+```powershell
+$env:OPENAPU_DB_PATH = "C:\datos\openapu.db"
+```
+
+## Docker
+
+```powershell
+docker build -t openapu:1.0 .
+docker run --rm -p 8080:8080 -v openapu-data:/data openapu:1.0
+```
+
+La API queda disponible en:
+
+```text
+http://localhost:8080
+```
+
+## Alcance 1.0
+
+- recursos;
+- análisis de precios unitarios;
+- componentes de APU;
+- conceptos y porcentajes;
+- presupuestos y partidas;
+- persistencia SQLite;
+- API HTTP;
+- migraciones y pruebas automatizadas.
+
+OpenAPU 1.0 es un núcleo funcional. No incluye todavía interfaz gráfica, autenticación, reportes ni importación desde otros sistemas.
