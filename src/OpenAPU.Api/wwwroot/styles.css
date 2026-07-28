@@ -212,3 +212,20 @@ button.compact {
         grid-template-columns: 1fr;
     }
 }
+
+.button-link {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c8d0d8;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: #eef1f4;
+    color: #20262c;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.button-link:hover {
+    background: #e2e7eb;
+}

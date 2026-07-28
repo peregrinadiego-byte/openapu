@@ -95,7 +95,7 @@
                 <section class="panel table-panel">
                     <div class="section-heading">
                         <h2>APU registrados</h2>
-                        <button class="secondary reload" data-load="apus">Actualizar</button>
+                        <div class="actions"><a class="button-link" href="/exports/apus.csv">Exportar CSV</a><button class="secondary reload" data-load="apus">Actualizar</button></div>
                     </div>
                     <div id="apu-list" class="cards"></div>
                 </section>
@@ -176,7 +176,7 @@
                 <section class="panel table-panel">
                     <div class="section-heading">
                         <h2>Presupuestos registrados</h2>
-                        <button class="secondary reload" data-load="budgets">Actualizar</button>
+                        <div class="actions"><a class="button-link" href="/exports/budgets.csv">Exportar CSV</a><button class="secondary reload" data-load="budgets">Actualizar</button></div>
                     </div>
                     <div id="budget-list" class="cards"></div>
                 </section>
@@ -187,4 +187,5 @@
     <script src="/app.js"></script>
 </body>
 </html>
+
 

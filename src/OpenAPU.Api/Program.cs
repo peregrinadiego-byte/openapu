@@ -2,6 +2,7 @@ using OpenAPU.Application.Abstractions;
 using OpenAPU.Application.Apus;
 using OpenAPU.Application.Budgets;
 using OpenAPU.Application.Concepts;
+using OpenAPU.Application.Exports;
 using OpenAPU.Application.Resources;
 using OpenAPU.Infrastructure.Repositories;
 
@@ -342,6 +343,32 @@ app.MapPost("/budgets/{id:guid}/refresh-prices", async (
 {
     return Results.Ok(await handler.HandleAsync(id, cancellationToken));
 });
+
+app.MapGet("/exports/apus.csv", async (
+    GetApusHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    var apus = await handler.HandleAsync(cancellationToken);
+    var content = CsvExportService.ExportApus(apus);
+
+    return Results.File(
+        content,
+        "text/csv; charset=utf-8",
+        "openapu-apus.csv");
+});
+
+app.MapGet("/exports/budgets.csv", async (
+    GetBudgetsHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    var budgets = await handler.HandleAsync(cancellationToken);
+    var content = CsvExportService.ExportBudgets(budgets);
+
+    return Results.File(
+        content,
+        "text/csv; charset=utf-8",
+        "openapu-presupuestos.csv");
+});
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -386,6 +413,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 
