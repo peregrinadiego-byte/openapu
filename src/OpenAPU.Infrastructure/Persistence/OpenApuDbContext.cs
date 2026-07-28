@@ -33,8 +33,22 @@ internal sealed class ApuComponentRow
     public Guid ResourceId { get; set; }
     public decimal Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-
     public ApuRow Apu { get; set; } = null!;
+}
+
+internal sealed class ConceptRow
+{
+    public Guid Id { get; set; }
+    public string Key { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string UnitCode { get; set; } = "";
+    public string UnitSymbol { get; set; } = "";
+    public string UnitName { get; set; } = "";
+    public Guid ApuId { get; set; }
+    public decimal IndirectCost { get; set; }
+    public decimal Financing { get; set; }
+    public decimal Profit { get; set; }
+    public decimal AdditionalCharges { get; set; }
 }
 
 internal sealed class OpenApuDbContext : DbContext
@@ -42,6 +56,7 @@ internal sealed class OpenApuDbContext : DbContext
     public DbSet<ResourceRow> Resources => Set<ResourceRow>();
     public DbSet<ApuRow> Apus => Set<ApuRow>();
     public DbSet<ApuComponentRow> ApuComponents => Set<ApuComponentRow>();
+    public DbSet<ConceptRow> Concepts => Set<ConceptRow>();
 
     public OpenApuDbContext(
         DbContextOptions<OpenApuDbContext> options)
@@ -91,5 +106,18 @@ internal sealed class OpenApuDbContext : DbContext
             .WithMany(row => row.Components)
             .HasForeignKey(row => row.ApuId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        var concept = modelBuilder.Entity<ConceptRow>();
+
+        concept.ToTable("concepts");
+        concept.HasKey(row => row.Id);
+        concept.Property(row => row.Id).ValueGeneratedNever();
+        concept.HasIndex(row => row.Key).IsUnique();
+
+        concept.Property(row => row.Key).HasMaxLength(100).IsRequired();
+        concept.Property(row => row.Name).HasMaxLength(300).IsRequired();
+        concept.Property(row => row.UnitCode).HasMaxLength(50).IsRequired();
+        concept.Property(row => row.UnitSymbol).HasMaxLength(30).IsRequired();
+        concept.Property(row => row.UnitName).HasMaxLength(150).IsRequired();
     }
 }

@@ -5,11 +5,11 @@ using OpenAPU.Infrastructure.Persistence;
 
 namespace OpenAPU.Infrastructure.Repositories;
 
-public sealed class SqliteApuRepository : IApuRepository
+public sealed class SqliteConceptRepository : IConceptRepository
 {
     private readonly DbContextOptions<OpenApuDbContext> _options;
 
-    public SqliteApuRepository(string databasePath)
+    public SqliteConceptRepository(string databasePath)
     {
         if (string.IsNullOrWhiteSpace(databasePath))
         {
@@ -40,22 +40,21 @@ public sealed class SqliteApuRepository : IApuRepository
     {
         await using var context = CreateContext();
 
-        return await context.Apus
+        return await context.Concepts
             .AsNoTracking()
             .AnyAsync(row => row.Key == key.Value, cancellationToken);
     }
 
-    public async Task<Apu?> GetByIdAsync(
+    public async Task<Concept?> GetByIdAsync(
         Identifier id,
         CancellationToken cancellationToken = default)
     {
         await using var context = CreateContext();
 
-        var row = await context.Apus
+        var row = await context.Concepts
             .AsNoTracking()
-            .Include(apu => apu.Components)
             .SingleOrDefaultAsync(
-                apu => apu.Id == id.Value,
+                concept => concept.Id == id.Value,
                 cancellationToken);
 
         return row is null
@@ -64,14 +63,14 @@ public sealed class SqliteApuRepository : IApuRepository
     }
 
     public async Task AddAsync(
-        Apu apu,
+        Concept concept,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(apu);
+        ArgumentNullException.ThrowIfNull(concept);
 
         await using var context = CreateContext();
 
-        context.Apus.Add(ToRow(apu));
+        context.Concepts.Add(ToRow(concept));
 
         try
         {
@@ -80,68 +79,54 @@ public sealed class SqliteApuRepository : IApuRepository
         catch (DbUpdateException exception)
         {
             throw new InvalidOperationException(
-                $"APU key '{apu.Key}' already exists.",
+                $"Concept key '{concept.Key}' already exists.",
                 exception);
         }
     }
 
     public async Task UpdateAsync(
-        Apu apu,
+        Concept concept,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(apu);
+        ArgumentNullException.ThrowIfNull(concept);
 
         await using var context = CreateContext();
 
-        var row = await context.Apus
-            .Include(existing => existing.Components)
+        var row = await context.Concepts
             .SingleOrDefaultAsync(
-                existing => existing.Id == apu.Id.Value,
+                existing => existing.Id == concept.Id.Value,
                 cancellationToken);
 
         if (row is null)
         {
             throw new InvalidOperationException(
-                $"APU '{apu.Id}' was not found.");
+                $"Concept '{concept.Id}' was not found.");
         }
 
-        row.Name = apu.Name;
-
-        context.ApuComponents.RemoveRange(row.Components);
-        row.Components = apu.Components
-            .Select(component => new ApuComponentRow
-            {
-                Id = component.Id.Value,
-                ApuId = apu.Id.Value,
-                ResourceId = component.Resource.Id.Value,
-                Quantity = component.Quantity.Value,
-                UnitPrice = component.UnitPrice.Amount
-            })
-            .ToList();
+        row.Name = concept.Name;
+        row.IndirectCost = concept.IndirectCost.Value;
+        row.Financing = concept.Financing.Value;
+        row.Profit = concept.Profit.Value;
+        row.AdditionalCharges = concept.AdditionalCharges.Value;
 
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<Apu>> GetAllAsync(
+    public async Task<IReadOnlyCollection<Concept>> GetAllAsync(
         CancellationToken cancellationToken = default)
     {
         await using var context = CreateContext();
 
-        var rows = await context.Apus
+        var rows = await context.Concepts
             .AsNoTracking()
-            .Include(apu => apu.Components)
-            .OrderBy(apu => apu.Key)
+            .OrderBy(row => row.Key)
             .ToArrayAsync(cancellationToken);
 
-        var result = new List<Apu>(rows.Length);
+        var result = new List<Concept>(rows.Length);
 
         foreach (var row in rows)
         {
-            result.Add(
-                await ToDomainAsync(
-                    context,
-                    row,
-                    cancellationToken));
+            result.Add(await ToDomainAsync(context, row, cancellationToken));
         }
 
         return result;
@@ -149,34 +134,53 @@ public sealed class SqliteApuRepository : IApuRepository
 
     private OpenApuDbContext CreateContext() => new(_options);
 
-    private static ApuRow ToRow(Apu apu) => new()
+    private static ConceptRow ToRow(Concept concept) => new()
     {
-        Id = apu.Id.Value,
-        Key = apu.Key.Value,
-        Name = apu.Name,
-        UnitCode = apu.Unit.Code,
-        UnitSymbol = apu.Unit.Symbol,
-        UnitName = apu.Unit.Name,
-        Components = apu.Components
-            .Select(component => new ApuComponentRow
-            {
-                Id = component.Id.Value,
-                ApuId = apu.Id.Value,
-                ResourceId = component.Resource.Id.Value,
-                Quantity = component.Quantity.Value,
-                UnitPrice = component.UnitPrice.Amount
-            })
-            .ToList()
+        Id = concept.Id.Value,
+        Key = concept.Key.Value,
+        Name = concept.Name,
+        UnitCode = concept.Unit.Code,
+        UnitSymbol = concept.Unit.Symbol,
+        UnitName = concept.Unit.Name,
+        ApuId = concept.Apu.Id.Value,
+        IndirectCost = concept.IndirectCost.Value,
+        Financing = concept.Financing.Value,
+        Profit = concept.Profit.Value,
+        AdditionalCharges = concept.AdditionalCharges.Value
     };
 
-    private static Task<Apu> ToDomainAsync(
+    private static async Task<Concept> ToDomainAsync(
         OpenApuDbContext context,
-        ApuRow row,
+        ConceptRow row,
         CancellationToken cancellationToken)
     {
-        return SqliteApuMapper.ToDomainAsync(
-            context,
-            row,
-            cancellationToken);
-    }}
+        var apuRow = await context.Apus
+            .AsNoTracking()
+            .Include(apu => apu.Components)
+            .SingleOrDefaultAsync(
+                apu => apu.Id == row.ApuId,
+                cancellationToken);
 
+        if (apuRow is null)
+        {
+            throw new InvalidOperationException(
+                $"APU '{row.ApuId}' was not found.");
+        }
+
+        var apu = await SqliteApuMapper.ToDomainAsync(
+            context,
+            apuRow,
+            cancellationToken);
+
+        return Concept.Rehydrate(
+            Identifier.From(row.Id),
+            Key.From(row.Key),
+            row.Name,
+            Unit.Create(row.UnitCode, row.UnitSymbol, row.UnitName),
+            apu,
+            Percentage.From(row.IndirectCost),
+            Percentage.From(row.Financing),
+            Percentage.From(row.Profit),
+            Percentage.From(row.AdditionalCharges));
+    }
+}
