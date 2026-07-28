@@ -51,12 +51,32 @@ internal sealed class ConceptRow
     public decimal AdditionalCharges { get; set; }
 }
 
+
+internal sealed class BudgetRow
+{
+    public Guid Id { get; set; }
+    public string Key { get; set; } = "";
+    public string Name { get; set; } = "";
+    public List<BudgetItemRow> Items { get; set; } = [];
+}
+
+internal sealed class BudgetItemRow
+{
+    public Guid Id { get; set; }
+    public Guid BudgetId { get; set; }
+    public Guid ConceptId { get; set; }
+    public decimal Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public BudgetRow Budget { get; set; } = null!;
+}
 internal sealed class OpenApuDbContext : DbContext
 {
     public DbSet<ResourceRow> Resources => Set<ResourceRow>();
     public DbSet<ApuRow> Apus => Set<ApuRow>();
     public DbSet<ApuComponentRow> ApuComponents => Set<ApuComponentRow>();
     public DbSet<ConceptRow> Concepts => Set<ConceptRow>();
+    public DbSet<BudgetRow> Budgets => Set<BudgetRow>();
+    public DbSet<BudgetItemRow> BudgetItems => Set<BudgetItemRow>();
 
     public OpenApuDbContext(
         DbContextOptions<OpenApuDbContext> options)
@@ -119,5 +139,28 @@ internal sealed class OpenApuDbContext : DbContext
         concept.Property(row => row.UnitCode).HasMaxLength(50).IsRequired();
         concept.Property(row => row.UnitSymbol).HasMaxLength(30).IsRequired();
         concept.Property(row => row.UnitName).HasMaxLength(150).IsRequired();
-    }
+
+        var budget = modelBuilder.Entity<BudgetRow>();
+
+        budget.ToTable("budgets");
+        budget.HasKey(row => row.Id);
+        budget.Property(row => row.Id).ValueGeneratedNever();
+        budget.HasIndex(row => row.Key).IsUnique();
+
+        budget.Property(row => row.Key).HasMaxLength(100).IsRequired();
+        budget.Property(row => row.Name).HasMaxLength(300).IsRequired();
+
+        var budgetItem = modelBuilder.Entity<BudgetItemRow>();
+
+        budgetItem.ToTable("budget_items");
+        budgetItem.HasKey(row => row.Id);
+        budgetItem.Property(row => row.Id).ValueGeneratedNever();
+        budgetItem.HasIndex(row => new { row.BudgetId, row.ConceptId }).IsUnique();
+
+        budgetItem
+            .HasOne(row => row.Budget)
+            .WithMany(row => row.Items)
+            .HasForeignKey(row => row.BudgetId)
+            .OnDelete(DeleteBehavior.Cascade);    }
 }
+
