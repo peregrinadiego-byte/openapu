@@ -6,6 +6,7 @@ using OpenAPU.Application.Exports;
 using OpenAPU.Application.Imports;
 using OpenAPU.Application.Resources;
 using OpenAPU.Infrastructure.Repositories;
+using OpenAPU.Infrastructure.Backup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ builder.Services.AddSingleton<IApuRepository>(
 builder.Services.AddSingleton<IConceptRepository>(
     _ => new SqliteConceptRepository(databasePath));
 
+builder.Services.AddSingleton(
+    _ => new SqliteDatabaseTransferService(databasePath));
 builder.Services.AddSingleton<IBudgetRepository>(
     _ => new SqliteBudgetRepository(databasePath));
 
@@ -55,6 +58,7 @@ builder.Services.AddSingleton<RemoveBudgetItemHandler>();
 builder.Services.AddSingleton<RefreshBudgetPricesHandler>();
 
 var app = builder.Build();
+_ = app.Services.GetRequiredService<IResourceRepository>();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -402,6 +406,55 @@ app.MapPost("/imports/resources.csv", async (
     return Results.Ok(result);
 })
 .DisableAntiforgery();
+
+app.MapGet("/database/backup", async (
+    SqliteDatabaseTransferService service,
+    CancellationToken cancellationToken) =>
+{
+    var content = await service.CreateBackupAsync(
+        cancellationToken);
+
+    var timestamp = DateTimeOffset.UtcNow
+        .ToString("yyyyMMdd-HHmmss");
+
+    return Results.File(
+        content,
+        "application/vnd.sqlite3",
+        $"openapu-backup-{timestamp}.db");
+});
+
+app.MapPost("/database/restore", async (
+    IFormFile file,
+    SqliteDatabaseTransferService service,
+    CancellationToken cancellationToken) =>
+{
+    if (file.Length == 0)
+    {
+        return Results.BadRequest(new
+        {
+            title = "El archivo de respaldo está vacío."
+        });
+    }
+
+    await using var stream = file.OpenReadStream();
+
+    try
+    {
+        var result = await service.RestoreAsync(
+            stream,
+            cancellationToken);
+
+        return Results.Ok(result);
+    }
+    catch (InvalidDataException exception)
+    {
+        return Results.BadRequest(new
+        {
+            title = exception.Message
+        });
+    }
+})
+.DisableAntiforgery();
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -446,6 +499,8 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
+
 
 
 

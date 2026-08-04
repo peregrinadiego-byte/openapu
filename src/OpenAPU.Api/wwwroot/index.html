@@ -22,6 +22,22 @@
         <button class="tab" data-view="budgets">Presupuestos</button>
     </nav>
 
+
+    <section class="database-tools">
+        <div>
+            <strong>Base de datos</strong>
+            <span>Respalda o restaura toda la información de OpenAPU.</span>
+        </div>
+        <div class="actions">
+            <a class="button-link" href="/database/backup">Descargar respaldo</a>
+            <form id="database-restore-form" class="restore-form">
+                <input id="database-restore-file" type="file" accept=".db,application/vnd.sqlite3" required>
+                <button type="submit" class="danger">Restaurar respaldo</button>
+            </form>
+        </div>
+        <p id="database-restore-message" class="message"></p>
+    </section>
+
     <main>
         <section id="resources" class="view active">
             <div class="layout">
@@ -187,6 +203,7 @@
     <script src="/app.js"></script>
 </body>
 </html>
+
 
 
 

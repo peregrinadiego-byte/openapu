@@ -505,5 +505,45 @@ document.querySelector("#resource-import-form").addEventListener("submit", async
         message("resource-import-message", error.message, "error");
     }
 });
+
+document.querySelector("#database-restore-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const fileInput = document.querySelector("#database-restore-file");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        message("database-restore-message", "Selecciona un respaldo.", "error");
+        return;
+    }
+
+    if (!confirm("La restauración reemplazará toda la información actual. ¿Continuar?")) {
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const result = await request("/database/restore", {
+            method: "POST",
+            body: formData
+        });
+
+        message(
+            "database-restore-message",
+            `Respaldo restaurado: ${result.bytes} bytes.`,
+            "success");
+
+        event.target.reset();
+        await loadAll();
+    } catch (error) {
+        message(
+            "database-restore-message",
+            error.message,
+            "error");
+    }
+});
 loadAll();
+
 

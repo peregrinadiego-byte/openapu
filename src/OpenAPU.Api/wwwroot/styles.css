@@ -229,3 +229,49 @@ button.compact {
 .button-link:hover {
     background: #e2e7eb;
 }
+
+.database-tools {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) auto;
+    gap: 12px 24px;
+    align-items: center;
+    margin: 20px 32px 0;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid #d9dee3;
+    border-radius: 10px;
+}
+
+.database-tools span {
+    display: block;
+    margin-top: 4px;
+    color: #5b6570;
+    font-size: 14px;
+}
+
+.database-tools .message {
+    grid-column: 1 / -1;
+}
+
+.restore-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.restore-form input {
+    width: auto;
+    max-width: 260px;
+}
+
+@media (max-width: 800px) {
+    .database-tools {
+        grid-template-columns: 1fr;
+        margin: 18px 18px 0;
+    }
+
+    .database-tools .message {
+        grid-column: auto;
+    }
+}
