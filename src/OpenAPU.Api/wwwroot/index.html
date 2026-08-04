@@ -15,6 +15,32 @@
         <span id="status" class="status">Conectando…</span>
     </header>
 
+
+    <section class="summary-strip" aria-label="Resumen general">
+        <article>
+            <span>Recursos</span>
+            <strong id="summary-resources">—</strong>
+        </article>
+        <article>
+            <span>APU</span>
+            <strong id="summary-apus">—</strong>
+        </article>
+        <article>
+            <span>Conceptos</span>
+            <strong id="summary-concepts">—</strong>
+        </article>
+        <article>
+            <span>Presupuestos</span>
+            <strong id="summary-budgets">—</strong>
+        </article>
+        <article>
+            <span>Total presupuestado</span>
+            <strong id="summary-total">—</strong>
+        </article>
+    </section>
+
+    <p id="global-message" class="global-message" role="status" aria-live="polite"></p>
+
     <nav class="tabs" aria-label="Módulos">
         <button class="tab active" data-view="resources">Recursos</button>
         <button class="tab" data-view="apus">APU</button>
@@ -201,8 +227,10 @@
     </main>
 
     <script src="/app.js"></script>
+    <script src="/ux.js"></script>
 </body>
 </html>
+
 
 
 
