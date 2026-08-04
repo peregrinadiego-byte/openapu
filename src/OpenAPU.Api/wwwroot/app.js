@@ -210,6 +210,18 @@ async function loadBudgets() {
         summary.innerHTML = `Partidas: <strong>${budget.items?.length ?? 0}</strong> · Total: <strong>${money(budget.total)}</strong>`;
         card.appendChild(summary);
 
+        const reportActions = document.createElement("div");
+        reportActions.className = "actions";
+
+        const printLink = document.createElement("a");
+        printLink.className = "button-link";
+        printLink.href = `/reports/budgets/${budget.id}`;
+        printLink.target = "_blank";
+        printLink.textContent = "Imprimir presupuesto";
+
+        reportActions.appendChild(printLink);
+        card.appendChild(reportActions);
+
         const items = document.createElement("div");
         items.className = "item-list";
 
@@ -545,5 +557,6 @@ document.querySelector("#database-restore-form").addEventListener("submit", asyn
     }
 });
 loadAll();
+
 
 

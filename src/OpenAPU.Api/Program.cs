@@ -4,6 +4,7 @@ using OpenAPU.Application.Budgets;
 using OpenAPU.Application.Concepts;
 using OpenAPU.Application.Exports;
 using OpenAPU.Application.Imports;
+using OpenAPU.Application.Reports;
 using OpenAPU.Application.Resources;
 using OpenAPU.Infrastructure.Repositories;
 using OpenAPU.Infrastructure.Backup;
@@ -455,6 +456,35 @@ app.MapPost("/database/restore", async (
     }
 })
 .DisableAntiforgery();
+
+app.MapGet("/reports/apus", async (
+    GetApusHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    var apus = await handler.HandleAsync(cancellationToken);
+    var html = HtmlReportService.CreateApuSummary(apus);
+
+    return Results.Content(
+        html,
+        "text/html; charset=utf-8");
+});
+
+app.MapGet("/reports/budgets/{id:guid}", async (
+    Guid id,
+    GetBudgetHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    var budget = await handler.HandleAsync(
+        id,
+        cancellationToken);
+
+    var html = HtmlReportService.CreateBudgetDetail(
+        budget);
+
+    return Results.Content(
+        html,
+        "text/html; charset=utf-8");
+});
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -499,6 +529,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 
