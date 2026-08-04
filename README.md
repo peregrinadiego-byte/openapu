@@ -1,4 +1,4 @@
-# OpenAPU 1.0
+# OpenAPU 1.1.0
 
 Núcleo abierto para administrar recursos, análisis de precios unitarios, conceptos y presupuestos de obra.
 
@@ -74,4 +74,5 @@ http://localhost:8080
 - API HTTP;
 - migraciones y pruebas automatizadas.
 
-OpenAPU 1.0 es un núcleo funcional. No incluye todavía interfaz gráfica, autenticación, reportes ni importación desde otros sistemas.
+OpenAPU 1.1.0 es una versión funcional con interfaz, intercambio de datos, respaldo y reportes. No incluye todavía interfaz gráfica, autenticación, reportes ni importación desde otros sistemas.
+

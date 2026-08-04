@@ -95,7 +95,7 @@ app.MapGet("/app", () => Results.Redirect("/index.html"));
 app.MapGet("/", () => Results.Ok(new
 {
     name = "OpenAPU",
-    version = "1.0",
+    version = "1.1.0",
     status = "ready"
 }));
 
@@ -485,6 +485,31 @@ app.MapGet("/reports/budgets/{id:guid}", async (
         html,
         "text/html; charset=utf-8");
 });
+
+app.MapGet("/system/status", async (
+    IResourceRepository resourceRepository,
+    IApuRepository apuRepository,
+    IConceptRepository conceptRepository,
+    IBudgetRepository budgetRepository,
+    CancellationToken cancellationToken) =>
+{
+    var resources = await resourceRepository.GetAllAsync(cancellationToken);
+    var apus = await apuRepository.GetAllAsync(cancellationToken);
+    var concepts = await conceptRepository.GetAllAsync(cancellationToken);
+    var budgets = await budgetRepository.GetAllAsync(cancellationToken);
+
+    return Results.Ok(new
+    {
+        name = "OpenAPU",
+        version = "1.1.0",
+        database = "ready",
+        resources = resources.Count,
+        apus = apus.Count,
+        concepts = concepts.Count,
+        budgets = budgets.Count,
+        checkedAtUtc = DateTimeOffset.UtcNow
+    });
+});
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -529,6 +554,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 
