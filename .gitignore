@@ -1,4 +1,4 @@
-bin/
+﻿bin/
 obj/
 TestResults/
 .vs/
@@ -9,3 +9,13 @@ TestResults/
 *.db-shm
 *.db-wal
 TestResults/
+# OpenAPU local outputs
+artifacts/
+backups/
+data/
+*.db
+*.db-shm
+*.db-wal
+**/bin/
+**/obj/
+

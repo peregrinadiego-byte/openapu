@@ -147,3 +147,17 @@ Consulta:
 ```text
 docs/ACTIONS_MAINTENANCE.md
 ```
+
+## Convenciones del repositorio
+
+Las reglas de formato, finales de lÃ­nea y exclusiÃ³n de artefactos locales estÃ¡n documentadas en:
+
+```text
+docs/REPOSITORY_CONVENTIONS.md
+```
+
+VerificaciÃ³n local:
+
+```powershell
+.\scripts\check-repository.ps1
+```
