@@ -1,4 +1,4 @@
-using OpenAPU.Application.Abstractions;
+﻿using OpenAPU.Application.Abstractions;
 using OpenAPU.Application.Apus;
 using OpenAPU.Application.Budgets;
 using OpenAPU.Application.Concepts;
@@ -95,7 +95,7 @@ app.MapGet("/app", () => Results.Redirect("/index.html"));
 app.MapGet("/", () => Results.Ok(new
 {
     name = "OpenAPU",
-    version = "1.1.0",
+    version = "1.2.0",
     status = "ready"
 }));
 
@@ -394,7 +394,7 @@ app.MapPost("/imports/resources.csv", async (
     {
         return Results.BadRequest(new
         {
-            title = "El archivo está vacío."
+            title = "El archivo estÃ¡ vacÃ­o."
         });
     }
 
@@ -433,7 +433,7 @@ app.MapPost("/database/restore", async (
     {
         return Results.BadRequest(new
         {
-            title = "El archivo de respaldo está vacío."
+            title = "El archivo de respaldo estÃ¡ vacÃ­o."
         });
     }
 
@@ -501,7 +501,7 @@ app.MapGet("/system/status", async (
     return Results.Ok(new
     {
         name = "OpenAPU",
-        version = "1.1.0",
+        version = "1.2.0",
         database = "ready",
         resources = resources.Count,
         apus = apus.Count,
@@ -554,6 +554,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

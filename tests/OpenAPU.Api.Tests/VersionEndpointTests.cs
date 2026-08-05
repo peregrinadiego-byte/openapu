@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 
 namespace OpenAPU.Api.Tests;
@@ -25,7 +25,7 @@ public sealed class VersionEndpointTests :
 
         Assert.NotNull(result);
         Assert.Equal("OpenAPU", result.Name);
-        Assert.Equal("1.1.0", result.Version);
+        Assert.Equal("1.2.0", result.Version);
         Assert.Equal("ready", result.Status);
     }
 
@@ -34,4 +34,5 @@ public sealed class VersionEndpointTests :
         string Version,
         string Status);
 }
+
 

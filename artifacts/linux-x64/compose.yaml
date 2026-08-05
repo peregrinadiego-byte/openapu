@@ -1,9 +1,9 @@
-services:
+﻿services:
   openapu:
     build:
       context: .
       dockerfile: Dockerfile
-    image: openapu:1.1.0
+    image: openapu:1.2.0
     container_name: openapu
     restart: unless-stopped
     environment:
@@ -31,3 +31,4 @@ services:
 volumes:
   openapu-data:
     name: openapu-data
+
