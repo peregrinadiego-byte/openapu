@@ -206,3 +206,17 @@ Consulta:
 ```text
 docs/BACKUP_INTEGRITY.md
 ```
+
+## Prueba de restauraciÃ³n
+
+Los respaldos pueden probarse en un contenedor temporal sin modificar la instancia principal.
+
+```powershell
+.\scripts\test-restore.ps1
+```
+
+Consulta:
+
+```text
+docs/RESTORE_DRILL.md
+```
