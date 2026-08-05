@@ -13,7 +13,14 @@
       - "8080:8080"
     volumes:
       - openapu-data:/data
-    healthcheck:
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 20s    healthcheck:
       test:
         [
           "CMD",
@@ -31,4 +38,5 @@
 volumes:
   openapu-data:
     name: openapu-data
+
 

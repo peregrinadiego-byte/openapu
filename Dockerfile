@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY . .
@@ -18,5 +18,8 @@ ENV OPENAPU_DB_PATH=/data/openapu.db
 
 VOLUME ["/data"]
 EXPOSE 8080
+USER app
+
 
 ENTRYPOINT ["dotnet", "OpenAPU.Api.dll"]
+

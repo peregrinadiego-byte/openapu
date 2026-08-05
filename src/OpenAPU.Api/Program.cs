@@ -1,4 +1,5 @@
-﻿using OpenAPU.Application.Abstractions;
+﻿using OpenAPU.Api.Security;
+using OpenAPU.Application.Abstractions;
 using OpenAPU.Application.Apus;
 using OpenAPU.Application.Budgets;
 using OpenAPU.Application.Concepts;
@@ -60,6 +61,8 @@ builder.Services.AddSingleton<RefreshBudgetPricesHandler>();
 
 var app = builder.Build();
 _ = app.Services.GetRequiredService<IResourceRepository>();
+
+app.UseMiddleware<SecurityHeadersMiddleware>();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -554,6 +557,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

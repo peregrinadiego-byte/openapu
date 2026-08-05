@@ -161,3 +161,11 @@ VerificaciÃ³n local:
 ```powershell
 .\scripts\check-repository.ps1
 ```
+
+## Seguridad de despliegue
+
+El contenedor se ejecuta sin privilegios y con un sistema de archivos de solo lectura. Las decisiones y lÃ­mites estÃ¡n documentados en:
+
+```text
+docs/SECURITY_BASELINE.md
+```
