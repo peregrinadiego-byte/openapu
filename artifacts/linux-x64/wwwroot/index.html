@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenAPU</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <h1>OpenAPU</h1>
+            <p>Recursos, APU, conceptos y presupuestos</p>
+        </div>
+        <span id="status" class="status">Conectando…</span>
+    </header>
+
+
+    <section class="summary-strip" aria-label="Resumen general">
+        <article>
+            <span>Recursos</span>
+            <strong id="summary-resources">—</strong>
+        </article>
+        <article>
+            <span>APU</span>
+            <strong id="summary-apus">—</strong>
+        </article>
+        <article>
+            <span>Conceptos</span>
+            <strong id="summary-concepts">—</strong>
+        </article>
+        <article>
+            <span>Presupuestos</span>
+            <strong id="summary-budgets">—</strong>
+        </article>
+        <article>
+            <span>Total presupuestado</span>
+            <strong id="summary-total">—</strong>
+        </article>
+    </section>
+
+    <p id="global-message" class="global-message" role="status" aria-live="polite"></p>
+
+    <nav class="tabs" aria-label="Módulos">
+        <button class="tab active" data-view="resources">Recursos</button>
+        <button class="tab" data-view="apus">APU</button>
+        <button class="tab" data-view="concepts">Conceptos</button>
+        <button class="tab" data-view="budgets">Presupuestos</button>
+    </nav>
+
+
+    <section class="database-tools">
+        <div>
+            <strong>Base de datos</strong>
+            <span>Respalda o restaura toda la información de OpenAPU.</span>
+        </div>
+        <div class="actions">
+            <a class="button-link" href="/database/backup">Descargar respaldo</a>
+            <form id="database-restore-form" class="restore-form">
+                <input id="database-restore-file" type="file" accept=".db,application/vnd.sqlite3" required>
+                <button type="submit" class="danger">Restaurar respaldo</button>
+            </form>
+        </div>
+        <p id="database-restore-message" class="message"></p>
+    </section>
+
+    <main>
+        <section id="resources" class="view active">
+            <div class="layout">
+                <section class="panel">
+                    <h2>Nuevo recurso</h2>
+                    <form id="resource-form">
+                        <label>Clave<input id="resource-key" required></label>
+                        <label>Nombre<input id="resource-name" required></label>
+                        <label>Tipo
+                            <select id="resource-type">
+                                <option value="0">Material</option>
+                                <option value="1">Mano de obra</option>
+                                <option value="2">Equipo</option>
+                                <option value="3">Auxiliar</option>
+                            </select>
+                        </label>
+                        <div class="grid">
+                            <label>Código<input id="resource-unit-code" required placeholder="KG"></label>
+                            <label>Símbolo<input id="resource-unit-symbol" required placeholder="kg"></label>
+                        </div>
+                        <label>Unidad<input id="resource-unit-name" required placeholder="Kilogramo"></label>
+                        <label>Precio<input id="resource-price" type="number" min="0" step="0.01" required></label>
+                        <button type="submit">Guardar recurso</button>
+                        <p id="resource-message" class="message"></p>
+                    </form>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="section-heading">
+                        <h2>Recursos registrados</h2>
+                        <button class="secondary reload" data-load="resources">Actualizar</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Clave</th><th>Nombre</th><th>Tipo</th><th>Unidad</th><th>Precio</th><th>Acciones</th></tr></thead>
+                            <tbody id="resource-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="apus" class="view">
+            <div class="layout">
+                <section class="panel">
+                    <h2>Nuevo APU</h2>
+                    <form id="apu-form">
+                        <label>Clave<input id="apu-key" required></label>
+                        <label>Nombre<input id="apu-name" required></label>
+                        <div class="grid">
+                            <label>Código<input id="apu-unit-code" required placeholder="M2"></label>
+                            <label>Símbolo<input id="apu-unit-symbol" required placeholder="m²"></label>
+                        </div>
+                        <label>Unidad<input id="apu-unit-name" required placeholder="Metro cuadrado"></label>
+                        <button type="submit">Guardar APU</button>
+                        <p id="apu-message" class="message"></p>
+                    </form>
+
+                    <hr>
+
+                    <h2>Agregar componente</h2>
+                    <form id="component-form">
+                        <label>APU<select id="component-apu" required></select></label>
+                        <label>Recurso<select id="component-resource" required></select></label>
+                        <label>Cantidad<input id="component-quantity" type="number" min="0.0001" step="0.0001" required></label>
+                        <button type="submit">Agregar componente</button>
+                        <p id="component-message" class="message"></p>
+                    </form>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="section-heading">
+                        <h2>APU registrados</h2>
+                        <div class="actions"><a class="button-link" href="/reports/apus" target="_blank">Imprimir resumen</a><a class="button-link" href="/exports/apus.csv">Exportar CSV</a><button class="secondary reload" data-load="apus">Actualizar</button></div>
+                    </div>
+                    <div id="apu-list" class="cards"></div>
+                </section>
+            </div>
+        </section>
+
+        <section id="concepts" class="view">
+            <div class="layout">
+                <section class="panel">
+                    <h2>Nuevo concepto</h2>
+                    <form id="concept-form">
+                        <label>Clave<input id="concept-key" required></label>
+                        <label>Nombre<input id="concept-name" required></label>
+                        <div class="grid">
+                            <label>Código<input id="concept-unit-code" required placeholder="M2"></label>
+                            <label>Símbolo<input id="concept-unit-symbol" required placeholder="m²"></label>
+                        </div>
+                        <label>Unidad<input id="concept-unit-name" required placeholder="Metro cuadrado"></label>
+                        <label>APU<select id="concept-apu" required></select></label>
+                        <button type="submit">Guardar concepto</button>
+                        <p id="concept-message" class="message"></p>
+                    </form>
+
+                    <hr>
+
+                    <h2>Actualizar porcentajes</h2>
+                    <form id="percentages-form">
+                        <label>Concepto<select id="percentages-concept" required></select></label>
+                        <div class="grid">
+                            <label>Indirectos %<input id="indirect-cost" type="number" min="0" step="0.01" value="0"></label>
+                            <label>Financiamiento %<input id="financing" type="number" min="0" step="0.01" value="0"></label>
+                            <label>Utilidad %<input id="profit" type="number" min="0" step="0.01" value="0"></label>
+                            <label>Cargos adicionales %<input id="additional-charges" type="number" min="0" step="0.01" value="0"></label>
+                        </div>
+                        <button type="submit">Actualizar porcentajes</button>
+                        <p id="percentages-message" class="message"></p>
+                    </form>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="section-heading">
+                        <h2>Conceptos registrados</h2>
+                        <button class="secondary reload" data-load="concepts">Actualizar</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Clave</th><th>Nombre</th><th>Costo directo</th><th>Precio unitario</th></tr></thead>
+                            <tbody id="concept-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="budgets" class="view">
+            <div class="layout">
+                <section class="panel">
+                    <h2>Nuevo presupuesto</h2>
+                    <form id="budget-form">
+                        <label>Clave<input id="budget-key" required></label>
+                        <label>Nombre<input id="budget-name" required></label>
+                        <button type="submit">Guardar presupuesto</button>
+                        <p id="budget-message" class="message"></p>
+                    </form>
+
+                    <hr>
+
+                    <h2>Agregar partida</h2>
+                    <form id="budget-item-form">
+                        <label>Presupuesto<select id="item-budget" required></select></label>
+                        <label>Concepto<select id="item-concept" required></select></label>
+                        <label>Cantidad<input id="item-quantity" type="number" min="0.0001" step="0.0001" required></label>
+                        <button type="submit">Agregar partida</button>
+                        <p id="budget-item-message" class="message"></p>
+                    </form>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="section-heading">
+                        <h2>Presupuestos registrados</h2>
+                        <div class="actions"><a class="button-link" href="/exports/budgets.csv">Exportar CSV</a><button class="secondary reload" data-load="budgets">Actualizar</button></div>
+                    </div>
+                    <div id="budget-list" class="cards"></div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+    <script src="/ux.js"></script>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+services:
+  openapu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openapu:1.1.0
+    container_name: openapu
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      OPENAPU_DB_PATH: /data/openapu.db
+    ports:
+      - "8080:8080"
+    volumes:
+      - openapu-data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:8080/health"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+volumes:
+  openapu-data:
+    name: openapu-data
