@@ -137,3 +137,13 @@ VerificaciÃ³n local:
 .\scripts\package-release.ps1
 ```
 
+
+## Mantenimiento de GitHub Actions
+
+Dependabot revisa mensualmente las versiones de las acciones usadas en los flujos de integraciÃ³n y publicaciÃ³n.
+
+Consulta:
+
+```text
+docs/ACTIONS_MAINTENANCE.md
+```
