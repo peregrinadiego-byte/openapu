@@ -15,6 +15,13 @@ using OpenAPU.Infrastructure.Backup;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var adminAccessOptions = new AdminAccessOptions(
+    builder.Configuration["OPENAPU_ADMIN_KEY"]
+    ?? Environment.GetEnvironmentVariable(
+        "OPENAPU_ADMIN_KEY"));
+
+builder.Services.AddSingleton(adminAccessOptions);
+
 var configuredDatabasePath =
     builder.Configuration["OPENAPU_DB_PATH"]
     ?? Environment.GetEnvironmentVariable("OPENAPU_DB_PATH");
@@ -79,6 +86,7 @@ var app = builder.Build();
 _ = app.Services.GetRequiredService<IResourceRepository>();
 
 app.UseMiddleware<RequestObservabilityMiddleware>();
+app.UseMiddleware<AdminAccessMiddleware>();
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
 app.UseDefaultFiles();
@@ -622,6 +630,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

@@ -9,6 +9,7 @@
     environment:
       ASPNETCORE_URLS: http://+:8080
       OPENAPU_DB_PATH: /data/openapu.db
+      OPENAPU_ADMIN_KEY: ${OPENAPU_ADMIN_KEY:-}
     ports:
       - "8080:8080"
     volumes:
@@ -38,6 +39,7 @@
 volumes:
   openapu-data:
     name: openapu-data
+
 
 
 

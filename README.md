@@ -234,3 +234,13 @@ Consulta:
 ```text
 docs/DIAGNOSTICS.md
 ```
+
+## Acceso administrativo
+
+Las operaciones de respaldo, restauraciÃ³n y diagnÃ³stico pueden protegerse mediante `OPENAPU_ADMIN_KEY`.
+
+Consulta:
+
+```text
+docs/ADMIN_ACCESS.md
+```
