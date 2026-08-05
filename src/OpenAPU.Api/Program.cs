@@ -12,11 +12,18 @@ using OpenAPU.Infrastructure.Backup;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuredDatabasePath =
+    builder.Configuration["OPENAPU_DB_PATH"]
+    ?? Environment.GetEnvironmentVariable("OPENAPU_DB_PATH");
+
 var connectionString =
     builder.Configuration.GetConnectionString("OpenAPU")
     ?? "Data Source=openapu.db;Pooling=False";
 
-var databasePath = GetDatabasePath(connectionString);
+var databasePath =
+    !string.IsNullOrWhiteSpace(configuredDatabasePath)
+        ? configuredDatabasePath
+        : GetDatabasePath(connectionString);
 
 builder.Services.AddSingleton<IResourceRepository>(
     _ => new SqliteResourceRepository(databasePath));
@@ -557,6 +564,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 
