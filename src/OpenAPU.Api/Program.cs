@@ -1,4 +1,5 @@
-﻿using OpenAPU.Api.Observability;
+﻿using OpenAPU.Api.Configuration;
+using OpenAPU.Api.Observability;
 using OpenAPU.Api.Security;
 using OpenAPU.Application.Abstractions;
 using OpenAPU.Application.Apus;
@@ -25,6 +26,11 @@ var databasePath =
     !string.IsNullOrWhiteSpace(configuredDatabasePath)
         ? configuredDatabasePath
         : GetDatabasePath(connectionString);
+
+var databaseStartupStatus =
+    DatabaseStartupValidator.Validate(databasePath);
+
+builder.Services.AddSingleton(databaseStartupStatus);
 
 builder.Services.AddSingleton<IResourceRepository>(
     _ => new SqliteResourceRepository(databasePath));
@@ -522,6 +528,20 @@ app.MapGet("/system/status", async (
         checkedAtUtc = DateTimeOffset.UtcNow
     });
 });
+
+app.MapGet("/ready", (
+    DatabaseStartupStatus databaseStatus) =>
+{
+    return Results.Ok(new
+    {
+        name = "OpenAPU",
+        version = "1.2.0",
+        ready = databaseStatus.DirectoryExists &&
+            databaseStatus.DirectoryWritable,
+        databasePath = databaseStatus.Path,
+        databaseDirectory = databaseStatus.Directory
+    });
+});
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -566,6 +586,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

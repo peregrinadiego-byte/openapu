@@ -179,3 +179,19 @@ Consulta:
 ```text
 docs/OBSERVABILITY.md
 ```
+
+## ValidaciÃ³n de inicio
+
+OpenAPU valida la ruta y permisos de SQLite antes de completar el arranque.
+
+Endpoint:
+
+```text
+GET /ready
+```
+
+Consulta:
+
+```text
+docs/STARTUP_VALIDATION.md
+```
