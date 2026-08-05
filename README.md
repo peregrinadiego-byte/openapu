@@ -196,3 +196,13 @@ Consulta:
 docs/STARTUP_VALIDATION.md
 ```
 
+
+## Integridad de respaldos
+
+Los respaldos SQLite se validan mediante cabecera y checksum SHA-256.
+
+Consulta:
+
+```text
+docs/BACKUP_INTEGRITY.md
+```
