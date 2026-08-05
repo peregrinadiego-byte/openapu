@@ -169,3 +169,13 @@ El contenedor se ejecuta sin privilegios y con un sistema de archivos de solo le
 ```text
 docs/SECURITY_BASELINE.md
 ```
+
+## Observabilidad
+
+Cada solicitud HTTP recibe un identificador de correlaciÃ³n y genera un registro estructurado bÃ¡sico.
+
+Consulta:
+
+```text
+docs/OBSERVABILITY.md
+```
