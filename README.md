@@ -1,6 +1,6 @@
-# OpenAPU 1.1.0
+﻿# OpenAPU 1.1.0
 
-Núcleo abierto para administrar recursos, análisis de precios unitarios, conceptos y presupuestos de obra.
+NÃºcleo abierto para administrar recursos, anÃ¡lisis de precios unitarios, conceptos y presupuestos de obra.
 
 ## Requisitos
 
@@ -22,7 +22,7 @@ La API queda disponible en:
 http://localhost:5080
 ```
 
-Comprobación:
+ComprobaciÃ³n:
 
 ```text
 GET /health
@@ -36,7 +36,7 @@ dotnet test OpenAPU.sln
 
 ## Base de datos
 
-La aplicación usa SQLite y aplica automáticamente las migraciones pendientes.
+La aplicaciÃ³n usa SQLite y aplica automÃ¡ticamente las migraciones pendientes.
 
 La ruta predeterminada es:
 
@@ -66,7 +66,7 @@ http://localhost:8080
 ## Alcance 1.0
 
 - recursos;
-- análisis de precios unitarios;
+- anÃ¡lisis de precios unitarios;
 - componentes de APU;
 - conceptos y porcentajes;
 - presupuestos y partidas;
@@ -74,7 +74,7 @@ http://localhost:8080
 - API HTTP;
 - migraciones y pruebas automatizadas.
 
-OpenAPU 1.1.0 es una versión funcional con interfaz, intercambio de datos, respaldo y reportes. No incluye todavía interfaz gráfica, autenticación, reportes ni importación desde otros sistemas.
+OpenAPU 1.1.0 es una versiÃ³n funcional con interfaz, intercambio de datos, respaldo y reportes. No incluye todavÃ­a interfaz grÃ¡fica, autenticaciÃ³n, reportes ni importaciÃ³n desde otros sistemas.
 
 
 ## Despliegue con Docker Compose
@@ -110,3 +110,13 @@ Verificar una instancia activa:
 ```
 
 Los datos se conservan en el volumen `openapu-data`.
+
+## IntegraciÃ³n continua
+
+GitHub Actions compila, prueba y valida la imagen Docker en cada cambio enviado a las ramas `master` o `main`.
+
+Consulta:
+
+```text
+docs/CONTINUOUS_INTEGRATION.md
+```
