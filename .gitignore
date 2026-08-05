@@ -18,4 +18,5 @@ data/
 *.db-wal
 **/bin/
 **/obj/
+diagnostics/
 

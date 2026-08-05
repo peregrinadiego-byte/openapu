@@ -220,3 +220,17 @@ Consulta:
 ```text
 docs/RESTORE_DRILL.md
 ```
+
+## DiagnÃ³stico de soporte
+
+OpenAPU puede generar un archivo JSON con informaciÃ³n operativa no sensible.
+
+```powershell
+.\scripts\collect-diagnostics.ps1
+```
+
+Consulta:
+
+```text
+docs/DIAGNOSTICS.md
+```

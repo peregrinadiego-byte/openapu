@@ -1,4 +1,5 @@
-﻿using OpenAPU.Api.Configuration;
+﻿using OpenAPU.Api.Support;
+using OpenAPU.Api.Configuration;
 using OpenAPU.Api.Observability;
 using OpenAPU.Api.Security;
 using OpenAPU.Application.Abstractions;
@@ -31,6 +32,7 @@ var databaseStartupStatus =
     DatabaseStartupValidator.Validate(databasePath);
 
 builder.Services.AddSingleton(databaseStartupStatus);
+builder.Services.AddSingleton<DiagnosticsService>();
 
 builder.Services.AddSingleton<IResourceRepository>(
     _ => new SqliteResourceRepository(databasePath));
@@ -542,6 +544,40 @@ app.MapGet("/ready", (
         databaseDirectory = databaseStatus.Directory
     });
 });
+
+app.MapGet("/support/diagnostics", async (
+    DiagnosticsService diagnosticsService,
+    CancellationToken cancellationToken) =>
+{
+    var diagnostics = await diagnosticsService
+        .CreateAsync(cancellationToken);
+
+    return Results.Json(diagnostics);
+});
+
+app.MapGet("/support/diagnostics/download", async (
+    DiagnosticsService diagnosticsService,
+    CancellationToken cancellationToken) =>
+{
+    var diagnostics = await diagnosticsService
+        .CreateAsync(cancellationToken);
+
+    var json = System.Text.Json.JsonSerializer.Serialize(
+        diagnostics,
+        new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+    var bytes = System.Text.Encoding.UTF8.GetBytes(json);
+    var fileName =
+        $"openapu-diagnostics-{DateTimeOffset.UtcNow:yyyyMMdd-HHmmss}.json";
+
+    return Results.File(
+        bytes,
+        "application/json",
+        fileName);
+});
 app.Run();
 
 static string GetDatabasePath(string connectionString)
@@ -586,6 +622,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 
