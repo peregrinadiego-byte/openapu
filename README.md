@@ -76,3 +76,37 @@ http://localhost:8080
 
 OpenAPU 1.1.0 es una versión funcional con interfaz, intercambio de datos, respaldo y reportes. No incluye todavía interfaz gráfica, autenticación, reportes ni importación desde otros sistemas.
 
+
+## Despliegue con Docker Compose
+
+Iniciar:
+
+```powershell
+.\scripts\start-openapu.ps1
+```
+
+Abrir:
+
+```text
+http://localhost:8080
+```
+
+Detener sin borrar los datos:
+
+```powershell
+.\scripts\stop-openapu.ps1
+```
+
+Crear un respaldo:
+
+```powershell
+.\scripts\backup-openapu.ps1
+```
+
+Verificar una instancia activa:
+
+```powershell
+.\scripts\verify-deployment.ps1
+```
+
+Los datos se conservan en el volumen `openapu-data`.

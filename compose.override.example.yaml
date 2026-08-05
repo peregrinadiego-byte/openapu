@@ -1,0 +1,6 @@
+services:
+  openapu:
+    ports:
+      - "${OPENAPU_PORT:-8080}:8080"
+    volumes:
+      - "${OPENAPU_DATA_PATH:-./data}:/data"
