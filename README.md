@@ -1,4 +1,4 @@
-﻿# OpenAPU 1.2.0
+﻿# OpenAPU 1.3.0
 
 NÃºcleo abierto para administrar recursos, anÃ¡lisis de precios unitarios, conceptos y presupuestos de obra.
 
@@ -74,7 +74,7 @@ http://localhost:8080
 - API HTTP;
 - migraciones y pruebas automatizadas.
 
-OpenAPU 1.2.0 es una versiÃ³n funcional con interfaz, intercambio de datos, respaldo y reportes. No incluye todavÃ­a interfaz grÃ¡fica, autenticaciÃ³n, reportes ni importaciÃ³n desde otros sistemas.
+OpenAPU 1.3.0 es una versiÃ³n funcional con interfaz, intercambio de datos, respaldo y reportes. No incluye todavÃ­a interfaz grÃ¡fica, autenticaciÃ³n, reportes ni importaciÃ³n desde otros sistemas.
 
 
 ## Despliegue con Docker Compose
@@ -195,3 +195,4 @@ Consulta:
 ```text
 docs/STARTUP_VALIDATION.md
 ```
+

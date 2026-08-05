@@ -25,7 +25,7 @@ public sealed class ReleaseStatusTests :
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(status);
         Assert.Equal("OpenAPU", status.Name);
-        Assert.Equal("1.2.0", status.Version);
+        Assert.Equal("1.3.0", status.Version);
         Assert.Equal("ready", status.Database);
         Assert.True(status.Resources >= 0);
         Assert.True(status.Apus >= 0);
@@ -42,4 +42,5 @@ public sealed class ReleaseStatusTests :
         int Concepts,
         int Budgets);
 }
+
 

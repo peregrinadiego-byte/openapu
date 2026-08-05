@@ -25,7 +25,7 @@ public sealed class VersionEndpointTests :
 
         Assert.NotNull(result);
         Assert.Equal("OpenAPU", result.Name);
-        Assert.Equal("1.2.0", result.Version);
+        Assert.Equal("1.3.0", result.Version);
         Assert.Equal("ready", result.Status);
     }
 
@@ -34,5 +34,6 @@ public sealed class VersionEndpointTests :
         string Version,
         string Status);
 }
+
 
 
