@@ -1,6 +1,7 @@
-﻿param(
+param(
     [int] $Port = 8080,
-    [string] $OutputDirectory = ""
+    [string] $OutputDirectory = "",
+    [string] $AdminKey = $env:OPENAPU_ADMIN_KEY
 )
 
 $ErrorActionPreference = "Stop"
@@ -14,6 +15,12 @@ if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
 New-Item -ItemType Directory -Force `
     $OutputDirectory | Out-Null
 
+$headers = @{}
+
+if (-not [string]::IsNullOrWhiteSpace($AdminKey)) {
+    $headers["X-OpenAPU-Admin-Key"] = $AdminKey
+}
+
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $outputPath = Join-Path `
     $OutputDirectory `
@@ -21,8 +28,9 @@ $outputPath = Join-Path `
 
 Invoke-WebRequest `
     -Uri "http://localhost:$Port/support/diagnostics/download" `
+    -Headers $headers `
     -OutFile $outputPath
 
 Write-Host ""
-Write-Host "DiagnÃ³stico guardado en:"
+Write-Host "Diagnóstico guardado en:"
 Write-Host $outputPath

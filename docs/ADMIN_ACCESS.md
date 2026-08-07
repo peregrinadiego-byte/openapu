@@ -1,4 +1,4 @@
-﻿# Administrative access key
+# Administrative access key
 
 OpenAPU can protect sensitive administrative endpoints with a shared key.
 
@@ -23,15 +23,46 @@ Protected routes:
 /support/diagnostics/download
 ```
 
-When `OPENAPU_ADMIN_KEY` is empty, the protection is disabled to preserve simple local use.
+When `OPENAPU_ADMIN_KEY` is empty, protection is disabled to preserve simple local use.
 
-For a protected Docker deployment, create a `.env` file:
+## Docker
+
+Create a local `.env` file:
 
 ```text
 OPENAPU_ADMIN_KEY=replace-with-a-long-random-value
 ```
 
-Example request:
+Do not commit `.env`.
+
+## Operational scripts
+
+The administrative scripts accept the key in either of two ways.
+
+Environment variable:
+
+```powershell
+$env:OPENAPU_ADMIN_KEY = "replace-with-a-long-random-value"
+.\scripts\backup-openapu.ps1
+```
+
+Explicit parameter:
+
+```powershell
+.\scripts\backup-openapu.ps1 `
+    -AdminKey "replace-with-a-long-random-value"
+```
+
+The same parameter is supported by:
+
+```text
+backup-openapu.ps1
+backup-with-retention.ps1
+collect-diagnostics.ps1
+test-restore.ps1
+```
+
+Example direct request:
 
 ```powershell
 Invoke-WebRequest `

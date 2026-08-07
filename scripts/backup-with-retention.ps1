@@ -1,6 +1,7 @@
-﻿param(
+param(
     [int] $Port = 8080,
-    [int] $Keep = 10
+    [int] $Keep = 10,
+    [string] $AdminKey = $env:OPENAPU_ADMIN_KEY
 )
 
 $ErrorActionPreference = "Stop"
@@ -10,7 +11,8 @@ $backupDirectory = Join-Path $root "backups"
 
 & "$PSScriptRoot\backup-openapu.ps1" `
     -Port $Port `
-    -OutputDirectory $backupDirectory
+    -OutputDirectory $backupDirectory `
+    -AdminKey $AdminKey
 
 $backups = Get-ChildItem `
     -Path $backupDirectory `
@@ -30,5 +32,5 @@ foreach ($file in $obsolete) {
 }
 
 Write-Host ""
-Write-Host "RetenciÃ³n aplicada."
+Write-Host "Retención aplicada."
 Write-Host "Respaldos conservados: $Keep"

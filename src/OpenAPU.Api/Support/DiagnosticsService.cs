@@ -1,6 +1,7 @@
-﻿using System.Reflection;
-using OpenAPU.Application.Abstractions;
+using System.Reflection;
+
 using OpenAPU.Api.Configuration;
+using OpenAPU.Application.Abstractions;
 
 namespace OpenAPU.Api.Support;
 

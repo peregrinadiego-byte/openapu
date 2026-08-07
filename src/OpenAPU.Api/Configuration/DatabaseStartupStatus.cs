@@ -1,4 +1,4 @@
-﻿namespace OpenAPU.Api.Configuration;
+namespace OpenAPU.Api.Configuration;
 
 public sealed record DatabaseStartupStatus(
     string Path,

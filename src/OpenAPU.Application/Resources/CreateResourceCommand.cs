@@ -1,4 +1,4 @@
-﻿namespace OpenAPU.Application.Resources;
+namespace OpenAPU.Application.Resources;
 
 public sealed record CreateResourceCommand(
     string Key,

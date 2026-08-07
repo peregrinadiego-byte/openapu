@@ -1,4 +1,4 @@
-﻿# OpenAPU 1.3.0
+# OpenAPU 1.3.0
 
 NÃºcleo abierto para administrar recursos, anÃ¡lisis de precios unitarios, conceptos y presupuestos de obra.
 
@@ -244,3 +244,5 @@ Consulta:
 ```text
 docs/ADMIN_ACCESS.md
 ```
+
+Los scripts administrativos aceptan la clave mediante `OPENAPU_ADMIN_KEY` o el parámetro `-AdminKey`.

@@ -1,7 +1,7 @@
-﻿using OpenAPU.Api.Support;
 using OpenAPU.Api.Configuration;
 using OpenAPU.Api.Observability;
 using OpenAPU.Api.Security;
+using OpenAPU.Api.Support;
 using OpenAPU.Application.Abstractions;
 using OpenAPU.Application.Apus;
 using OpenAPU.Application.Budgets;
@@ -10,8 +10,8 @@ using OpenAPU.Application.Exports;
 using OpenAPU.Application.Imports;
 using OpenAPU.Application.Reports;
 using OpenAPU.Application.Resources;
-using OpenAPU.Infrastructure.Repositories;
 using OpenAPU.Infrastructure.Backup;
+using OpenAPU.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

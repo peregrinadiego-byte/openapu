@@ -1,4 +1,4 @@
-﻿namespace OpenAPU.Domain;
+namespace OpenAPU.Domain;
 
 public enum ResourceType { Material, Labor, Equipment, Tool, Auxiliary }
 public enum ResourceStatus { Active, Inactive }

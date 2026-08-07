@@ -1,4 +1,4 @@
-﻿namespace OpenAPU.Application;
+namespace OpenAPU.Application;
 
 public sealed class ApplicationException : Exception
 {

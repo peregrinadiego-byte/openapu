@@ -161,7 +161,8 @@ public sealed class OpenApuDbContext : DbContext
             .HasOne(row => row.Budget)
             .WithMany(row => row.Items)
             .HasForeignKey(row => row.BudgetId)
-            .OnDelete(DeleteBehavior.Cascade);    }
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }
 
 

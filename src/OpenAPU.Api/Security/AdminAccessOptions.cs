@@ -1,4 +1,4 @@
-﻿namespace OpenAPU.Api.Security;
+namespace OpenAPU.Api.Security;
 
 public sealed record AdminAccessOptions(
     string? Key)

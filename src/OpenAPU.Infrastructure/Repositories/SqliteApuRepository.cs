@@ -178,6 +178,7 @@ public sealed class SqliteApuRepository : IApuRepository
             context,
             row,
             cancellationToken);
-    }}
+    }
+}
 
 

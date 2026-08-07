@@ -1,4 +1,4 @@
-﻿using OpenAPU.Domain;
+using OpenAPU.Domain;
 
 namespace OpenAPU.Domain.Tests;
 

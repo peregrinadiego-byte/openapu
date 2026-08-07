@@ -1,4 +1,4 @@
-﻿using OpenAPU.Api.Configuration;
+using OpenAPU.Api.Configuration;
 
 namespace OpenAPU.Api.Tests;
 

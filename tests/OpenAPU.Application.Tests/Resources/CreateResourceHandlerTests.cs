@@ -1,4 +1,4 @@
-﻿using OpenAPU.Application.Resources;
+using OpenAPU.Application.Resources;
 using OpenAPU.Domain;
 
 namespace OpenAPU.Application.Tests.Resources;

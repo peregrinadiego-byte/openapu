@@ -1,4 +1,4 @@
-﻿using OpenAPU.Application.Abstractions;
+using OpenAPU.Application.Abstractions;
 using OpenAPU.Domain;
 
 namespace OpenAPU.Application.Resources;

@@ -67,7 +67,7 @@ public sealed class OpenApuApiFactory :
         builder.UseSetting(
             "ConnectionStrings:OpenAPU",
             $"Data Source={_databasePath};Pooling=False");
-            
+
         builder.ConfigureAppConfiguration((_, configuration) =>
         {
             configuration.AddInMemoryCollection(

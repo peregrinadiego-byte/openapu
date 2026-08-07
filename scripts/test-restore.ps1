@@ -1,7 +1,8 @@
-﻿param(
+param(
     [int] $SourcePort = 8080,
     [int] $TestPort = 8082,
-    [string] $Image = "openapu:1.3.0"
+    [string] $Image = "openapu:1.3.0",
+    [string] $AdminKey = $env:OPENAPU_ADMIN_KEY
 )
 
 $ErrorActionPreference = "Stop"
@@ -17,7 +18,8 @@ New-Item -ItemType Directory -Force `
 
 & "$PSScriptRoot\backup-openapu.ps1" `
     -Port $SourcePort `
-    -OutputDirectory $backupDirectory
+    -OutputDirectory $backupDirectory `
+    -AdminKey $AdminKey
 
 $backup = Get-ChildItem `
     -Path $backupDirectory `
@@ -129,3 +131,4 @@ finally {
         docker volume rm $volumeName | Out-Null
     }
 }
+
