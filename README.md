@@ -247,3 +247,17 @@ docs/ADMIN_ACCESS.md
 
 Los scripts administrativos aceptan la clave mediante `OPENAPU_ADMIN_KEY` o el parámetro `-AdminKey`.
 
+
+## Smoke test operativo
+
+La instancia puede validarse sin modificar datos mediante:
+
+```powershell
+.\scripts\smoke-test.ps1
+```
+
+Consulta:
+
+```text
+docs/SMOKE_TEST.md
+```

@@ -110,6 +110,10 @@ jobs:
 
           echo "$response" | grep '"database":"ready"'
           echo "$response" | grep '"version":"1.4.0"'
+      - name: Smoke test critical endpoints
+        shell: pwsh
+        run: |
+          ./scripts/smoke-test.ps1 -Port 8080 -ExpectedVersion "1.4.0"
 
       - name: Show container logs on failure
         if: failure()
@@ -118,6 +122,7 @@ jobs:
       - name: Stop container
         if: always()
         run: docker rm --force openapu-ci || true
+
 
 
 
