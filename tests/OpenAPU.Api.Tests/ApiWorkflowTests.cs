@@ -99,3 +99,4 @@ public sealed class ApiWorkflowTests : IClassFixture<OpenApuApiFactory>
         Assert.Equal(1270m, detail!.Total);
     }
 }
+

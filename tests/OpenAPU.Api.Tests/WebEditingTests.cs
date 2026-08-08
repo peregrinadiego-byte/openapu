@@ -24,3 +24,4 @@ public sealed class WebEditingTests :
         Assert.Contains("¿Eliminar esta partida?", script);
     }
 }
+

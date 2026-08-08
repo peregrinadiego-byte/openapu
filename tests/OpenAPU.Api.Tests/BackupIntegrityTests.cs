@@ -33,3 +33,4 @@ public sealed class BackupIntegrityTests :
         Assert.StartsWith("SQLite format 3", header);
     }
 }
+

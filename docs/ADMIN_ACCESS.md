@@ -74,3 +74,11 @@ Invoke-WebRequest `
 ```
 
 This shared key is a basic administrative control. It is not a replacement for HTTPS, user accounts or a reverse proxy when OpenAPU is exposed outside a trusted network.
+
+## Key requirements
+
+When protection is enabled, `OPENAPU_ADMIN_KEY` must contain at least 24 characters.
+
+OpenAPU refuses to start when a shorter non-empty key is configured.
+
+Use a long random value and keep it outside source control.

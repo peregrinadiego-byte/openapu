@@ -22,3 +22,4 @@ public sealed class DeploymentReadinessTests :
         Assert.Equal(HttpStatusCode.OK, status.StatusCode);
     }
 }
+

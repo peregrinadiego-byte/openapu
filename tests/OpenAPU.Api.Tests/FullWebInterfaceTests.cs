@@ -26,3 +26,4 @@ public sealed class FullWebInterfaceTests :
         Assert.Contains("Agregar partida", content);
     }
 }
+

@@ -41,3 +41,4 @@ public sealed class SecurityHeadersTests :
         Assert.Contains("object-src 'none'", policy);
     }
 }
+

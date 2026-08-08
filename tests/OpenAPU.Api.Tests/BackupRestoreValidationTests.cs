@@ -65,3 +65,4 @@ public sealed class BackupRestoreValidationTests :
         Assert.Equal("ok", result?.ToString());
     }
 }
+

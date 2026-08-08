@@ -23,3 +23,4 @@ public sealed class WebInterfaceTests :
         Assert.Contains("Recursos registrados", content);
     }
 }
+

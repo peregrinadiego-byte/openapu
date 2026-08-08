@@ -42,3 +42,4 @@ public sealed class UserExperienceTests :
         Assert.Contains("openapu.activeView", script);
     }
 }
+

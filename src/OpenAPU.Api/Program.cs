@@ -15,7 +15,7 @@ using OpenAPU.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var adminAccessOptions = new AdminAccessOptions(
+var adminAccessOptions = AdminAccessOptions.Create(
     builder.Configuration["OPENAPU_ADMIN_KEY"]
     ?? Environment.GetEnvironmentVariable(
         "OPENAPU_ADMIN_KEY"));
@@ -630,6 +630,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

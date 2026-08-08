@@ -74,3 +74,4 @@ public sealed class DiagnosticsEndpointTests :
         int Concepts,
         int Budgets);
 }
+

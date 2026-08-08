@@ -16,7 +16,7 @@ public sealed class AdminAccessMiddlewareTests
                 called = true;
                 return Task.CompletedTask;
             },
-            new AdminAccessOptions("secret"));
+            AdminAccessOptions.Create("openapu-admin-key-for-tests"));
 
         var context = new DefaultHttpContext();
         context.Request.Path = "/health";
@@ -38,7 +38,7 @@ public sealed class AdminAccessMiddlewareTests
                 called = true;
                 return Task.CompletedTask;
             },
-            new AdminAccessOptions("secret"));
+            AdminAccessOptions.Create("openapu-admin-key-for-tests"));
 
         var context = new DefaultHttpContext();
         context.Request.Path = "/database/backup";
@@ -63,7 +63,7 @@ public sealed class AdminAccessMiddlewareTests
                 called = true;
                 return Task.CompletedTask;
             },
-            new AdminAccessOptions("secret"));
+            AdminAccessOptions.Create("openapu-admin-key-for-tests"));
 
         var context = new DefaultHttpContext();
         context.Request.Path =
@@ -71,7 +71,7 @@ public sealed class AdminAccessMiddlewareTests
 
         context.Request.Headers[
             AdminAccessMiddleware.HeaderName] =
-            "secret";
+            "openapu-admin-key-for-tests";
 
         await middleware.InvokeAsync(context);
 
@@ -79,3 +79,6 @@ public sealed class AdminAccessMiddlewareTests
         Assert.Equal(200, context.Response.StatusCode);
     }
 }
+
+
+

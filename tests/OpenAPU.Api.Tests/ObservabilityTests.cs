@@ -54,3 +54,4 @@ public sealed class ObservabilityTests :
                 .Single());
     }
 }
+

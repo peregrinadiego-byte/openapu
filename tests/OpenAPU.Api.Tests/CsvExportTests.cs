@@ -42,3 +42,4 @@ public sealed class CsvExportTests :
         Assert.Contains("Total presupuesto", content);
     }
 }
+
