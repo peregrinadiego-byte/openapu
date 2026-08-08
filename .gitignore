@@ -1,4 +1,4 @@
-﻿bin/
+bin/
 obj/
 TestResults/
 .vs/
@@ -19,4 +19,5 @@ data/
 **/bin/
 **/obj/
 diagnostics/
+.env
 

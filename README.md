@@ -261,3 +261,20 @@ Consulta:
 ```text
 docs/SMOKE_TEST.md
 ```
+
+## Inicio rápido
+
+Desde la raíz del repositorio:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\initialize-openapu.ps1
+```
+
+El script prepara la configuración local, inicia Docker y valida la instancia.
+
+Consulta:
+
+```text
+docs/INITIAL_SETUP.md
+```
