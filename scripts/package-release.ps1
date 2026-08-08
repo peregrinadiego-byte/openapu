@@ -1,5 +1,5 @@
-﻿param(
-    [string] $Version = "1.3.0",
+param(
+    [string] $Version = "1.4.0",
     [ValidateSet("win-x64", "linux-x64")]
     [string[]] $Runtime = @("win-x64", "linux-x64")
 )
@@ -46,6 +46,7 @@ foreach ($target in $Runtime) {
 
 Write-Host ""
 Write-Host "Paquetes de OpenAPU v$Version generados."
+
 
 
 

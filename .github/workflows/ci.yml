@@ -1,4 +1,4 @@
-﻿name: OpenAPU CI
+name: OpenAPU CI
 
 on:
   push:
@@ -101,7 +101,7 @@ jobs:
           response="$(curl --fail --silent http://localhost:8080/)"
 
           echo "$response" | grep '"name":"OpenAPU"'
-          echo "$response" | grep '"version":"1.3.0"'
+          echo "$response" | grep '"version":"1.4.0"'
           echo "$response" | grep '"status":"ready"'
 
       - name: Verify system status
@@ -109,7 +109,7 @@ jobs:
           response="$(curl --fail --silent http://localhost:8080/system/status)"
 
           echo "$response" | grep '"database":"ready"'
-          echo "$response" | grep '"version":"1.3.0"'
+          echo "$response" | grep '"version":"1.4.0"'
 
       - name: Show container logs on failure
         if: failure()
@@ -118,6 +118,7 @@ jobs:
       - name: Stop container
         if: always()
         run: docker rm --force openapu-ci || true
+
 
 
 

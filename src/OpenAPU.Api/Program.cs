@@ -123,7 +123,7 @@ app.MapGet("/app", () => Results.Redirect("/index.html"));
 app.MapGet("/", () => Results.Ok(new
 {
     name = "OpenAPU",
-    version = "1.3.0",
+    version = "1.4.0",
     status = "ready"
 }));
 
@@ -529,7 +529,7 @@ app.MapGet("/system/status", async (
     return Results.Ok(new
     {
         name = "OpenAPU",
-        version = "1.3.0",
+        version = "1.4.0",
         database = "ready",
         resources = resources.Count,
         apus = apus.Count,
@@ -545,7 +545,7 @@ app.MapGet("/ready", (
     return Results.Ok(new
     {
         name = "OpenAPU",
-        version = "1.3.0",
+        version = "1.4.0",
         ready = databaseStatus.DirectoryExists &&
             databaseStatus.DirectoryWritable,
         databasePath = databaseStatus.Path,
@@ -630,6 +630,7 @@ public sealed record AddBudgetItemRequest(
     decimal Quantity);
 
 public partial class Program;
+
 
 
 

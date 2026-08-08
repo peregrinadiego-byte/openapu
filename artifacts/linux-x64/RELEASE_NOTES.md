@@ -1,31 +1,29 @@
-﻿# OpenAPU 1.3.0
+# OpenAPU 1.4.0
 
 ## Alcance
 
-OpenAPU 1.3.0 consolida la operaciÃ³n segura y verificable del sistema.
+OpenAPU 1.4.0 consolida seguridad administrativa y recuperación operativa.
 
 ## Cambios principales
 
-- contenedor ejecutado con usuario no privilegiado;
-- sistema de archivos del contenedor en solo lectura;
-- eliminaciÃ³n de capacidades Linux;
-- bloqueo de escalamiento de privilegios;
-- ruta SQLite configurable mediante `OPENAPU_DB_PATH`;
-- correcciÃ³n de permisos persistentes para `/data`;
-- encabezados HTTP defensivos;
-- identificadores de correlaciÃ³n por solicitud;
-- registros de mÃ©todo, ruta, estado y duraciÃ³n;
-- trazabilidad de excepciones;
-- validaciÃ³n de la ruta y permisos de SQLite al iniciar;
-- endpoint de preparaciÃ³n `GET /ready`;
-- mantenimiento automatizado de dependencias de GitHub Actions;
-- convenciones de formato y finales de lÃ­nea.
+- clave administrativa opcional mediante `OPENAPU_ADMIN_KEY`;
+- longitud mínima obligatoria de 24 caracteres cuando la protección está activa;
+- comparación de clave en tiempo constante;
+- protección de respaldo, restauración y diagnóstico;
+- integración de la clave con scripts operativos;
+- diagnóstico JSON descargable;
+- checksum SHA-256 para respaldos;
+- validación de cabecera SQLite;
+- retención de respaldos;
+- prueba real de restauración en volumen Docker temporal;
+- validación de integridad SQLite mediante `PRAGMA integrity_check`;
+- 100 pruebas automatizadas.
 
 ## Compatibilidad
 
-La estructura funcional y de datos se mantiene compatible con OpenAPU 1.2.0.
+La estructura de datos y el núcleo funcional se mantienen compatibles con OpenAPU 1.3.0.
 
-## VerificaciÃ³n
+## Verificación
 
 ```powershell
 dotnet restore OpenAPU.sln
@@ -33,15 +31,21 @@ dotnet build OpenAPU.sln
 dotnet test OpenAPU.sln
 ```
 
-Despliegue:
+## Respaldo
 
 ```powershell
-docker compose up -d --build
-.\scripts\verify-deployment.ps1
+.\scripts\backup-openapu.ps1
+.\scripts\verify-backup.ps1 -BackupPath <archivo.db>
 ```
 
-PreparaciÃ³n:
+## Prueba de restauración
 
-```text
-GET /ready
+```powershell
+.\scripts\test-restore.ps1
+```
+
+## Diagnóstico
+
+```powershell
+.\scripts\collect-diagnostics.ps1
 ```

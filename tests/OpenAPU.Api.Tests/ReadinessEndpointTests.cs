@@ -24,7 +24,7 @@ public sealed class ReadinessEndpointTests :
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(status);
         Assert.Equal("OpenAPU", status.Name);
-        Assert.Equal("1.3.0", status.Version);
+        Assert.Equal("1.4.0", status.Version);
         Assert.True(status.Ready);
         Assert.False(
             string.IsNullOrWhiteSpace(status.DatabasePath));
@@ -37,5 +37,6 @@ public sealed class ReadinessEndpointTests :
         string DatabasePath,
         string DatabaseDirectory);
 }
+
 
 

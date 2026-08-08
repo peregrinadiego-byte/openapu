@@ -1,7 +1,7 @@
 param(
     [int] $SourcePort = 8080,
     [int] $TestPort = 8082,
-    [string] $Image = "openapu:1.3.0",
+    [string] $Image = "openapu:1.4.0",
     [string] $AdminKey = $env:OPENAPU_ADMIN_KEY
 )
 
@@ -131,4 +131,5 @@ finally {
         docker volume rm $volumeName | Out-Null
     }
 }
+
 

@@ -1,4 +1,4 @@
-﻿# OpenAPU 1.3.0
+# OpenAPU 1.4.0
 
 NÃºcleo abierto para administrar recursos, anÃ¡lisis de precios unitarios, conceptos y presupuestos de obra.
 
@@ -195,4 +195,55 @@ Consulta:
 ```text
 docs/STARTUP_VALIDATION.md
 ```
+
+
+## Integridad de respaldos
+
+Los respaldos SQLite se validan mediante cabecera y checksum SHA-256.
+
+Consulta:
+
+```text
+docs/BACKUP_INTEGRITY.md
+```
+
+## Prueba de restauraciÃ³n
+
+Los respaldos pueden probarse en un contenedor temporal sin modificar la instancia principal.
+
+```powershell
+.\scripts\test-restore.ps1
+```
+
+Consulta:
+
+```text
+docs/RESTORE_DRILL.md
+```
+
+## DiagnÃ³stico de soporte
+
+OpenAPU puede generar un archivo JSON con informaciÃ³n operativa no sensible.
+
+```powershell
+.\scripts\collect-diagnostics.ps1
+```
+
+Consulta:
+
+```text
+docs/DIAGNOSTICS.md
+```
+
+## Acceso administrativo
+
+Las operaciones de respaldo, restauraciÃ³n y diagnÃ³stico pueden protegerse mediante `OPENAPU_ADMIN_KEY`.
+
+Consulta:
+
+```text
+docs/ADMIN_ACCESS.md
+```
+
+Los scripts administrativos aceptan la clave mediante `OPENAPU_ADMIN_KEY` o el parámetro `-AdminKey`.
 
